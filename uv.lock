@@ -52,18 +52,23 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },
+    { name = "tzdata" },
+]
+
+[package.optional-dependencies]
+dev = [
     { name = "django-dbml" },
     { name = "django-extensions" },
-    { name = "tzdata" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "django", specifier = ">=5.1.7" },
-    { name = "django-dbml", specifier = ">=0.10.1" },
-    { name = "django-extensions", specifier = ">=3.2.3" },
+    { name = "django-dbml", marker = "extra == 'dev'", specifier = ">=0.10.1" },
+    { name = "django-extensions", marker = "extra == 'dev'", specifier = ">=3.2.3" },
     { name = "tzdata", specifier = ">=2025.2" },
 ]
+provides-extras = ["dev"]
 
 [[package]]
 name = "sqlparse"
