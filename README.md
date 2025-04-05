@@ -9,6 +9,8 @@ Este es el proyecto integrador de la materia de Prácticas Profesionales 4 de la
 
 ## Instalación en PythonAnywhere
 
+Esta es una guía para desplegar este proyecto en PythonAnywhere. La guia completa y general para realizar esto se encuentra [acá](https://help.pythonanywhere.com/pages/DeployExistingDjangoProject/). También se puede encontrar una guía visual en Youtube en este [link](https://www.youtube.com/watch?v=xtnUwvjOThg)
+
 ### 1. Instalar uv
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -31,6 +33,8 @@ Navegar al directorio del proyecto e instalar las dependencias:
 cd your-project-directory
 uv pip install -e .
 ```
+
+### 5. Luego de configurar el directorio del código fuente, al realizar la creación del entorno virtual con uv, se necesitaría agregar la misma dirección de este a la configuración de la Web App en el panel de administración de PythonAnywhere, el cual típicamente es llamado .venv
 
 ## Instalación Local
 
