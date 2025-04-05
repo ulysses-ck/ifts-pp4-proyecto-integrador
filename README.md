@@ -9,7 +9,10 @@ Este es el proyecto integrador de la materia de Prácticas Profesionales 4 de la
 
 ## Instalación en PythonAnywhere
 
-Esta es una guía para desplegar este proyecto en PythonAnywhere. La guia completa y general para realizar esto se encuentra [acá](https://help.pythonanywhere.com/pages/DeployExistingDjangoProject/). También se puede encontrar una guía visual en Youtube en este [link](https://www.youtube.com/watch?v=xtnUwvjOThg)
+Esta es una guía para desplegar este proyecto en PythonAnywhere. Las guías que se siguieron para realizarlo son las siguientes:
+- [PythonAnywhere](https://help.pythonanywhere.com/pages/DeployExistingDjangoProject/)
+- [Deploy a Django web app to Python Anywhere [FREE]](https://www.youtube.com/watch?v=xtnUwvjOThg)
+- [MDN Article](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Django/Deployment#example_hosting_on_pythonanywhere)
 
 ### 1. Instalar uv
 ```bash
@@ -34,7 +37,8 @@ cd your-project-directory
 uv sync --no-dev --locked
 ```
 
-### 5. Luego de configurar el directorio del código fuente, al realizar la creación del entorno virtual con uv, se necesitaría agregar la misma dirección de este a la configuración de la Web App en el panel de administración de PythonAnywhere, el cual típicamente es llamado .venv
+### 5. Configuración Panel
+Luego de configurar el directorio del código fuente, al realizar la creación del entorno virtual con uv, se necesitaría agregar la misma dirección de este a la configuración de la Web App en el panel de administración de PythonAnywhere, el cual típicamente es llamado .venv. Asegurarse también de haber realizado la configuración del dominio en `settings.py` en `ALLOWED_HOSTS` y `CSRF_TRUSTED_ORIGINS`
 
 ## Instalación Local
 
