@@ -31,7 +31,7 @@ source ~/.bashrc
 Navegar al directorio del proyecto e instalar las dependencias:
 ```bash
 cd your-project-directory
-uv pip install -e .
+uv sync --no-dev --locked
 ```
 
 ### 5. Luego de configurar el directorio del código fuente, al realizar la creación del entorno virtual con uv, se necesitaría agregar la misma dirección de este a la configuración de la Web App en el panel de administración de PythonAnywhere, el cual típicamente es llamado .venv
@@ -55,9 +55,14 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
+### 3. Crear entorno virtual `.venv`
+```bash
+uv venv
+```
+
 ### 3. Instalar dependencias
 ```bash
-uv pip install -e .
+uv sync
 ```
 
 ### Requisitos
