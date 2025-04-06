@@ -69,7 +69,35 @@ uv venv
 uv sync
 ```
 
+## Instalación Tradicional (venv + pip)
+
+### 1. Clonar el repositorio
+```bash
+git clone <url-del-repositorio>
+cd ifts-pp4-proyecto-integrador
+```
+
+### 2. Crear entorno virtual
+```bash
+# Windows
+python -m venv .venv
+.venv\Scripts\activate
+
+# Linux/macOS
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. Instalar dependencias
+```bash
+# Instalar dependencias principales
+pip install -r requirements.txt
+
+# Instalar dependencias de desarrollo (opcional)
+pip install -r requirements-dev.txt
+```
+
 ### Requisitos
 - Python 3.13 o superior
-- uv (gestor de paquetes)
+- uv (gestor de paquetes) - opcional
 - Git
