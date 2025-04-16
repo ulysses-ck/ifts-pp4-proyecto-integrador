@@ -1,3 +1,9 @@
 from django.db import models
+from apps.client.models import Client
+from apps.barber.models import Barber
 
-# Create your models here.
+class Turn(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    barber = models.ForeignKey(Barber, on_delete=models.CASCADE)
+    date = models.DateField()
+    time = models.TimeField()
