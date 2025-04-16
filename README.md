@@ -101,3 +101,29 @@ pip install -r requirements-dev.txt
 - Python 3.13 o superior
 - uv (gestor de paquetes) - opcional
 - Git
+
+## Scripts Disponibles
+
+### Generar DBML
+Para generar el archivo DBML del modelo de datos:
+```bash
+# Usando Python directamente
+python manage.py dbml > db.dbml
+
+# Usando uv
+uv run manage.py dbml > db.dbml
+```
+
+> **Nota**: El archivo DBML generado puede ser visualizado en [dbdiagram.io](https://dbdiagram.io/d). Simplemente copia el contenido del archivo `db.dbml` y pégalo en el editor de dbdiagram.io para ver una representación visual del modelo de datos.
+
+### Ejecutar Seed
+Para poblar la base de datos con datos iniciales:
+```bash
+# Usando Python directamente
+python manage.py runscript seed
+
+# Usando uv
+uv run manage.py runscript seed
+```
+
+> **Nota**: Asegúrate de tener el entorno virtual activado antes de ejecutar cualquiera de estos comandos.
