@@ -45,13 +45,17 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
+CUSTOM_APPS = [
+    'django_extensions',
+]
+
 LOCAL_APPS = [
     'apps.client',
     'apps.barber',
     'apps.turn',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
