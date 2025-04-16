@@ -75,6 +75,7 @@ dev = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "django-extensions" },
     { name = "faker" },
 ]
 
@@ -88,7 +89,10 @@ requires-dist = [
 provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
-dev = [{ name = "faker", specifier = ">=37.1.0" }]
+dev = [
+    { name = "django-extensions", specifier = ">=3.2.3" },
+    { name = "faker", specifier = ">=37.1.0" },
+]
 
 [[package]]
 name = "sqlparse"
