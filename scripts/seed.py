@@ -4,37 +4,57 @@ from apps.barber.models import Barber
 from apps.turn.models import Turn
 import random
 from datetime import datetime
+import logging
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 # seeds client
 def seed_client():
+    logger.info("Starting to seed clients...")
     fake = Faker()
+    count = 0
     for _ in range(10):
         Client.objects.create(
             name=fake.name(),
             email=fake.email(),
             phone=fake.phone_number(),
         )
+        count += 1
+    logger.info(f"Successfully seeded {count} clients")
 
 # seeds barber
 def seed_barber():
+    logger.info("Starting to seed barbers...")
     fake = Faker()
+    count = 0
     for _ in range(10):
         Barber.objects.create(
             name=fake.name(),
             email=fake.email(),
             phone=fake.phone_number(),
         )
+        count += 1
+    logger.info(f"Successfully seeded {count} barbers")
 
 # seeds turn
 def seed_turn():
+    logger.info("Starting to seed turns...")
     fake = Faker()
     clients = list(Client.objects.all())
     barbers = list(Barber.objects.all())
     
     if not clients or not barbers:
-        print("Cannot seed turns: No clients or barbers found. Please seed clients and barbers first.")
+        logger.error("Cannot seed turns: No clients or barbers found. Please seed clients and barbers first.")
         return
+    
+    logger.info(f"Found {len(clients)} clients and {len(barbers)} barbers for turn creation")
+    count = 0
     
     for _ in range(10):
         # Generate a random date between 30 days ago and 30 days in the future
@@ -51,11 +71,16 @@ def seed_turn():
             date=random_date,
             time=random_time,
         )
+        count += 1
+    
+    logger.info(f"Successfully seeded {count} turns")
 
 def run():
+    logger.info("Starting database seeding process...")
     seed_client()
     seed_barber()
     seed_turn()
+    logger.info("Database seeding completed successfully")
 
 if __name__ == '__main__':
     run()
