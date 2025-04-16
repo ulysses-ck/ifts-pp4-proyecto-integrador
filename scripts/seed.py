@@ -1,9 +1,3 @@
-import os
-import django
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'turnera.settings')
-django.setup()
-
 from faker import Faker
 from apps.client.models import Client
 from apps.barber.models import Barber
@@ -58,7 +52,11 @@ def seed_turn():
             time=random_time,
         )
 
-if __name__ == '__main__':
+def run():
     seed_client()
     seed_barber()
     seed_turn()
+
+if __name__ == '__main__':
+    run()
+    
