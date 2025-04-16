@@ -16,6 +16,7 @@ dev = [
 
 [dependency-groups]
 dev = [
+    "django-dbml>=0.10.1",
     "django-extensions>=3.2.3",
     "faker>=37.1.0",
 ]

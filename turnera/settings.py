@@ -47,6 +47,7 @@ DJANGO_APPS = [
 
 CUSTOM_APPS = [
     'django_extensions',
+    'django_dbml',
 ]
 
 LOCAL_APPS = [

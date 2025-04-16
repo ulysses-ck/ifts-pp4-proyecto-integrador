@@ -75,6 +75,7 @@ dev = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "django-dbml" },
     { name = "django-extensions" },
     { name = "faker" },
 ]
@@ -90,6 +91,7 @@ provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "django-dbml", specifier = ">=0.10.1" },
     { name = "django-extensions", specifier = ">=3.2.3" },
     { name = "faker", specifier = ">=37.1.0" },
 ]
