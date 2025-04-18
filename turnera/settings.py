@@ -45,10 +45,6 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-CUSTOM_APPS = [
-    'django_extensions',
-    'django_dbml',
-]
 
 LOCAL_APPS = [
     'apps.client',
@@ -57,7 +53,7 @@ LOCAL_APPS = [
     'apps.core',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -141,4 +137,23 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+<<<<<<< HEAD
 AUTH_USER_MODEL = 'core.CustomUser'
+=======
+
+
+# Development-only applications
+try:
+    import django_extensions  # noqa
+except ImportError:
+    pass
+else:
+    INSTALLED_APPS += ("django_extensions",)
+
+try:
+    import django_dbml  # noqa
+except ImportError:
+    pass
+else:
+    INSTALLED_APPS += ("django_dbml",)
+>>>>>>> f1dce7abe327ecd931588ffa21690db8ef9d6e61
