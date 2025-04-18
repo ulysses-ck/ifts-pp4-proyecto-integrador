@@ -54,6 +54,7 @@ LOCAL_APPS = [
     'apps.client',
     'apps.barber',
     'apps.turn',
+    'apps.core',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + LOCAL_APPS
@@ -140,3 +141,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'core.CustomUser'
