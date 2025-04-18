@@ -13,6 +13,6 @@ class CustomUser(AbstractUser):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='cliente')
 
     def __str__(self):
-        return f"{self.username} ({self.role})"
+        return f"{self.name} ({self.role})"
     
 
