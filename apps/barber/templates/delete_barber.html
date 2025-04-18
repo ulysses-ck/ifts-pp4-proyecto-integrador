@@ -1,0 +1,6 @@
+<h1>¿Eliminar "{{ object.name }}"?</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'barber:index_barber' %}">Cancelar</a>
+</form>

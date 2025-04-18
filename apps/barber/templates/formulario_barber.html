@@ -1,0 +1,7 @@
+<h1>{{ view.object.pk|yesno:"Editar Barbero,Nuevo Barbero" }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }} 
+    <button type="submit">Guardar</button>
+</form>
+<a href="{% url 'barber:index_barber' %}">Volver</a>

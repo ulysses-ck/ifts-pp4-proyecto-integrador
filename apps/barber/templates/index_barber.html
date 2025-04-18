@@ -1,0 +1,11 @@
+<h1>Lista de Babero</h1>
+<a href="{% url 'barber:create_barber' %}">Nuevo barbero</a>
+<ul>
+    {% for barber in barbers %}
+    <li>
+        <a href="{% url 'barber:detail_barber' barber.pk %}">{{ barber.name }}</a> - ${{ barber.email }}
+        (<a href="{% url 'barber:update_barber' barber.pk %}">Editar</a> |
+        <a href="{% url 'barber:delete_barber' barber.pk %}">Eliminar</a>)
+    </li>
+    {% endfor %}
+</ul>
