@@ -52,6 +52,7 @@ LOCAL_APPS = [
     'apps.turn',
     'apps.core',
 ]
+AUTH_USER_MODEL = 'core.CustomUser'
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
@@ -137,10 +138,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-<<<<<<< HEAD
-AUTH_USER_MODEL = 'core.CustomUser'
-=======
-
 
 # Development-only applications
 try:
@@ -156,4 +153,4 @@ except ImportError:
     pass
 else:
     INSTALLED_APPS += ("django_dbml",)
->>>>>>> f1dce7abe327ecd931588ffa21690db8ef9d6e61
+
