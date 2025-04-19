@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Home de Turnos</h1>
+    <a href="{% url 'turn:turn_create' %}">Asignar Turno</a>
+
+    <h2>Turnos Asignados</h2>
+
+    <ul>
+        {% for turn in turns %}
+        <li>
+            <a href="{% url 'turn:detail_turn' turn.pk %}">{{ turn.client }} - {{ turn.barber }} - {{ turn.date }} - {{ turn.time }}</li>
+            (<a href="{% url 'turn:update_turn' turn.pk %}">Editar</a> |
+            <a href="{% url 'turn:delete_turn' turn.pk %}">Eliminar</a>)
+        </li>
+        {% endfor %}
+    </ul>
+
+
+
+    
+</body>
+</html>

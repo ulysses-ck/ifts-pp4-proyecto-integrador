@@ -1,0 +1,6 @@
+<h1>Detalle de Turno</h1>
+<p>Barbero: {{ object.barber.name }}</p>
+<p>Cliente: {{ object.client.name }}</p>
+<p>Fecha: {{ object.date }}</p>
+<p>Hora: {{ object.time }}</p>
+<a href="{% url 'turn:home_turn' %}">Volver a la lista de turnos</a>

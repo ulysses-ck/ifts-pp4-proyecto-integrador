@@ -1,0 +1,7 @@
+<h1>{{ view.object.pk|yesno:"Editar Turno,Nuevo Turno" }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }} 
+    <button type="submit">Asignar</button>
+</form>
+<a href="{% url 'turn:home_turn' %}">Volver</a>

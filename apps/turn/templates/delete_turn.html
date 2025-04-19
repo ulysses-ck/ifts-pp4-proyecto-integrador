@@ -1,0 +1,6 @@
+<h1>¿Eliminar el turno de "{{ object.client }}" con "{{ object.barber }}"?</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'turn:home_turn' %}">Cancelar</a>
+</form>
