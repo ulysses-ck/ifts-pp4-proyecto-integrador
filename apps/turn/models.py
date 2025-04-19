@@ -7,3 +7,6 @@ class Turn(models.Model):
     barber = models.ForeignKey(Barber, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.client.name} con {self.barber.name} el {self.date} a las {self.time}"
