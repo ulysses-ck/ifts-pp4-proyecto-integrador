@@ -52,9 +52,15 @@ LOCAL_APPS = [
     'apps.turn',
     'apps.core',
 ]
+
+CUSTOM_APPS = [
+    "widget_tweaks",
+]
+
 AUTH_USER_MODEL = 'core.CustomUser'
 
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
