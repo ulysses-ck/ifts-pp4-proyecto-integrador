@@ -1,11 +1,59 @@
 {% extends 'base.html' %}
+{% load turn_extras %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Turnos Disponibles</h2>
-    <div class="row">
-        <div class="col-12">
-            <!-- Content will be added here in the next iteration -->
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Calendar Header -->
+        <div class="flex items-center justify-between mb-8">
+            <a href="?month={{ prev_month }}&year={{ prev_year }}" 
+               class="text-blue-600 hover:text-blue-800">
+                &larr; Mes anterior
+            </a>
+            <h2 class="text-3xl font-bold text-gray-800">
+                {{ month_name }} {{ year }}
+            </h2>
+            <a href="?month={{ next_month }}&year={{ next_year }}"
+               class="text-blue-600 hover:text-blue-800">
+                Mes siguiente &rarr;
+            </a>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <!-- Days of week header -->
+            <div class="grid grid-cols-7 gap-px bg-gray-200">
+                <div class="text-center py-2 font-semibold text-gray-700">Lun</div>
+                <div class="text-center py-2 font-semibold text-gray-700">Mar</div>
+                <div class="text-center py-2 font-semibold text-gray-700">Mié</div>
+                <div class="text-center py-2 font-semibold text-gray-700">Jue</div>
+                <div class="text-center py-2 font-semibold text-gray-700">Vie</div>
+                <div class="text-center py-2 font-semibold text-gray-700">Sáb</div>
+                <div class="text-center py-2 font-semibold text-gray-700">Dom</div>
+            </div>
+
+            <!-- Calendar days -->
+            <div class="bg-gray-100">
+                {% for week in calendar %}
+                <div class="grid grid-cols-7 gap-px">
+                    {% for day in week %}
+                    {% if day != 0 %}
+                    <div class="bg-white p-4 min-h-[100px] relative">
+                        <span class="text-gray-600">{{ day }}</span>
+                        {% if day in turns_by_date %}
+                        <a href="{% url 'turn:home_turn' %}?date={{ year }}-{{ current_month }}-{{ day }}"
+                           class="absolute bottom-2 right-2 bg-blue-500 text-white rounded-full px-3 py-1 text-sm">
+                            {{ turns_by_date|get_item:day }} turnos
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="bg-gray-50 p-4 min-h-[100px]"></div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
