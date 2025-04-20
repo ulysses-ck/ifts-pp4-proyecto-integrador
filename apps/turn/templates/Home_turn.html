@@ -1,28 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Home de Turnos</h1>
-    <a href="{% url 'turn:turn_create' %}">Asignar Turno</a>
+{% extends 'base.html' %}
 
-    <h2>Turnos Asignados</h2>
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Turnos</h1>
+                {% if selected_date %}
+                <p class="text-gray-600 mt-2">Mostrando turnos para el {{ selected_date|date:"d/m/Y" }}</p>
+                {% endif %}
+            </div>
+            <div class="flex gap-4">
+                <a href="{% url 'turn:turn_create' %}" 
+                   class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    Asignar Turno
+                </a>
+                <a href="{% url 'turn:available_turns' %}"
+                   class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">
+                    Ver Calendario
+                </a>
+            </div>
+        </div>
 
-    <ul>
-        {% for turn in turns %}
-        <li>
-            <a href="{% url 'turn:detail_turn' turn.pk %}">{{ turn.client }} - {{ turn.barber }} - {{ turn.date }} - {{ turn.time }}</li>
-            (<a href="{% url 'turn:update_turn' turn.pk %}">Editar</a> |
-            <a href="{% url 'turn:delete_turn' turn.pk %}">Eliminar</a>)
-        </li>
-        {% endfor %}
-    </ul>
+        {% if selected_date %}
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div class="flex items-center justify-between">
+                <p class="text-blue-700">
+                    <span class="font-medium">Filtro activo:</span> {{ selected_date|date:"d/m/Y" }}
+                </p>
+                <a href="{% url 'turn:home_turn' %}" class="text-blue-600 hover:text-blue-800">
+                    Quitar filtro
+                </a>
+            </div>
+        </div>
+        {% endif %}
 
-
-
-    
-</body>
-</html>
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="divide-y divide-gray-200">
+                {% for turn in turns %}
+                <div class="p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">
+                                {{ turn.client.name }}
+                            </h3>
+                            <p class="text-gray-600">
+                                Barbero: {{ turn.barber.name }} | 
+                                Fecha: {{ turn.date|date:"d/m/Y" }} | 
+                                Hora: {{ turn.time|time:"H:i" }}
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <a href="{% url 'turn:detail_turn' turn.pk %}" 
+                               class="text-gray-600 hover:text-gray-900">
+                                Ver detalles
+                            </a>
+                            <span class="text-gray-300">|</span>
+                            <a href="{% url 'turn:update_turn' turn.pk %}"
+                               class="text-blue-600 hover:text-blue-800">
+                                Editar
+                            </a>
+                            <span class="text-gray-300">|</span>
+                            <a href="{% url 'turn:delete_turn' turn.pk %}"
+                               class="text-red-600 hover:text-red-800">
+                                Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="p-8 text-center text-gray-500">
+                    {% if selected_date %}
+                    No hay turnos programados para el {{ selected_date|date:"d/m/Y" }}.
+                    {% else %}
+                    No hay turnos programados.
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
