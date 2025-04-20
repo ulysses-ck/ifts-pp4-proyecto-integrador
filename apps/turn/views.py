@@ -13,8 +13,34 @@ from django.db.models.functions import TruncDate
 class TurnHome(ListView):
     model = Turn
     template_name = "home_turn.html"
-    context_object_name= "turns"
+    context_object_name = "turns"
     
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        date_param = self.request.GET.get('date')
+        
+        if date_param:
+            try:
+                filter_date = datetime.strptime(date_param, '%Y-%m-%d').date()
+                queryset = queryset.filter(date=filter_date)
+            except ValueError:
+                pass  # Si la fecha no es válida, retornamos todos los turnos
+                
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        date_param = self.request.GET.get('date')
+        
+        if date_param:
+            try:
+                filter_date = datetime.strptime(date_param, '%Y-%m-%d').date()
+                context['selected_date'] = filter_date
+            except ValueError:
+                pass
+                
+        return context
+
 class TurnCreate(CreateView):
     model = Turn
     form_class = TurnForm
