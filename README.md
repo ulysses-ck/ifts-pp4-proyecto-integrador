@@ -127,3 +127,83 @@ uv run manage.py runscript seed
 ```
 
 > **Nota**: Asegúrate de tener el entorno virtual activado antes de ejecutar cualquiera de estos comandos.
+
+## Configuración de Tailwind CSS
+
+### Instalación de Volta y Node.js
+Primero, instala Volta, el gestor de herramientas JavaScript:
+
+#### Windows
+```powershell
+# Usando winget
+winget install Volta.Volta
+
+# O descarga el instalador desde https://volta.sh
+```
+
+#### Linux/macOS
+```bash
+curl https://get.volta.sh | bash
+```
+
+Después de instalar Volta, instala Node.js:
+```bash
+volta install node
+```
+
+### Instalación de pnpm
+Con Volta y node instalado, ahora instala pnpm:
+```bash
+volta install pnpm
+```
+
+### Instalación de dependencias de Tailwind
+```bash
+# Instalar dependencias usando pnpm
+pnpm install
+```
+
+### Configuración de Tailwind CSS
+El proyecto ya viene configurado con Tailwind CSS. Los archivos principales son:
+
+- `static/src/styles.css`: Archivo fuente de estilos
+- `static/dist/output.css`: Archivo compilado de estilos (generado automáticamente)
+- `package.json`: Configuración de dependencias y scripts
+- `tailwind.config.js`: Configuración de Tailwind CSS
+
+### Compilar estilos
+Para compilar los estilos de Tailwind CSS, ejecuta:
+```bash
+# Modo desarrollo (watch)
+pnpm watch:css
+```
+
+Este comando vigilará los cambios en tus archivos HTML y CSS, y recompilará automáticamente los estilos.
+
+### Estructura de archivos
+```
+├── static/
+│   ├── src/
+│   │   └── styles.css    # Archivo fuente de Tailwind
+│   └── dist/
+│       └── output.css    # Archivo compilado
+├── templates/
+│   └── base.html         # Template base con la referencia al CSS
+├── package.json          # Configuración de pnpm y scripts
+└── tailwind.config.js    # Configuración de Tailwind
+```
+
+### Uso en templates
+Los estilos de Tailwind ya están configurados en el template base (`templates/base.html`). Para usar Tailwind CSS en tus templates, simplemente extiende de base.html y utiliza las clases de Tailwind:
+
+```html
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold text-gray-800">Mi Página</h1>
+</div>
+{% endblock %}
+```
+
+> **Nota**: Asegúrate de tener el comando `pnpm watch:css` ejecutándose mientras desarrollas para que los cambios en los estilos se compilen automáticamente.
