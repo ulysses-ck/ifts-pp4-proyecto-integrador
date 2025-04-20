@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+    <title>{% block title %}Turnera{% endblock %}</title>
+</head>
+
+<body>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

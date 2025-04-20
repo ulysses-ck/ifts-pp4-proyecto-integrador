@@ -4,7 +4,7 @@
   "description": "Este es el proyecto integrador de la materia de Prácticas Profesionales 4 de la carrera de Desarrollo de Software en IFTS 18.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch:css": "npx @tailwindcss/cli -i ./turnera/static/src/styles.css -o ./turnera/static/dist/output.css --watch"
   },
   "repository": {
     "type": "git",
