@@ -3,55 +3,57 @@
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-5xl mx-auto">
         <!-- Calendar Header -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center justify-between mb-6">
             <a href="?month={{ prev_month }}&year={{ prev_year }}" 
-               class="text-blue-600 hover:text-blue-800">
-                &larr; Mes anterior
+               class="text-blue-600 hover:text-blue-800 flex items-center">
+                ← Mes anterior
             </a>
             <h2 class="text-3xl font-bold text-gray-800">
                 {{ month_name }} {{ year }}
             </h2>
             <a href="?month={{ next_month }}&year={{ next_year }}"
-               class="text-blue-600 hover:text-blue-800">
-                Mes siguiente &rarr;
+               class="text-blue-600 hover:text-blue-800 flex items-center">
+                Mes siguiente →
             </a>
         </div>
 
         <!-- Calendar Grid -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <!-- Days of week header -->
-            <div class="grid grid-cols-7 gap-px bg-gray-200">
-                <div class="text-center py-2 font-semibold text-gray-700">Lun</div>
-                <div class="text-center py-2 font-semibold text-gray-700">Mar</div>
-                <div class="text-center py-2 font-semibold text-gray-700">Mié</div>
-                <div class="text-center py-2 font-semibold text-gray-700">Jue</div>
-                <div class="text-center py-2 font-semibold text-gray-700">Vie</div>
-                <div class="text-center py-2 font-semibold text-gray-700">Sáb</div>
-                <div class="text-center py-2 font-semibold text-gray-700">Dom</div>
+            <div class="grid grid-cols-7 bg-gray-100 border-b border-gray-200">
+                <div class="text-center py-3 font-semibold text-gray-600 border-r border-gray-200 last:border-r-0">Lun</div>
+                <div class="text-center py-3 font-semibold text-gray-600 border-r border-gray-200 last:border-r-0">Mar</div>
+                <div class="text-center py-3 font-semibold text-gray-600 border-r border-gray-200 last:border-r-0">Mié</div>
+                <div class="text-center py-3 font-semibold text-gray-600 border-r border-gray-200 last:border-r-0">Jue</div>
+                <div class="text-center py-3 font-semibold text-gray-600 border-r border-gray-200 last:border-r-0">Vie</div>
+                <div class="text-center py-3 font-semibold text-gray-600 border-r border-gray-200 last:border-r-0">Sáb</div>
+                <div class="text-center py-3 font-semibold text-gray-600">Dom</div>
             </div>
 
             <!-- Calendar days -->
-            <div class="bg-gray-100">
+            <div class="grid grid-cols-7">
                 {% for week in calendar %}
-                <div class="grid grid-cols-7 gap-px">
                     {% for day in week %}
-                    {% if day != 0 %}
-                    <div class="bg-white p-4 min-h-[100px] relative">
-                        <span class="text-gray-600">{{ day }}</span>
-                        {% if day in turns_by_date %}
-                        <a href="{% url 'turn:home_turn' %}?date={{ year }}-{{ current_month }}-{{ day }}"
-                           class="absolute bottom-2 right-2 bg-blue-500 text-white rounded-full px-3 py-1 text-sm">
-                            {{ turns_by_date|get_item:day }} turnos
-                        </a>
+                        {% if day != 0 %}
+                        <div class="h-32 p-2 border-b border-r border-gray-200 last:border-r-0 relative hover:bg-gray-50 transition-colors">
+                            <span class="text-sm font-medium text-gray-700 {% if forloop.parentloop.last %}border-b-0{% endif %}">
+                                {{ day }}
+                            </span>
+                            {% if day in turns_by_date %}
+                            <a href="{% url 'turn:home_turn' %}?date={{ year }}-{{ current_month }}-{{ day }}"
+                               class="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full px-3 py-1 text-xs font-medium transition-colors">
+                                {{ turns_by_date|get_item:day }} turnos
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="h-32 p-2 bg-gray-50 border-b border-r border-gray-200 last:border-r-0">
+                            <span class="text-sm text-gray-400"></span>
+                        </div>
                         {% endif %}
-                    </div>
-                    {% else %}
-                    <div class="bg-gray-50 p-4 min-h-[100px]"></div>
-                    {% endif %}
                     {% endfor %}
-                </div>
                 {% endfor %}
             </div>
         </div>
