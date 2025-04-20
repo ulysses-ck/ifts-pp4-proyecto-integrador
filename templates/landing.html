@@ -3,13 +3,47 @@
 {% block title %}Welcome to Turnera{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-100">
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
     <main class="container mx-auto px-4 py-16">
-        <div class="text-center">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Turnera</h1>
-            <p class="text-xl text-gray-600 mb-8">Sistema de agendamiento de turnos</p>
-            <div class="space-x-4">
-                <a href="" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">Iniciar sesión ADMIN</a>
+        <div class="max-w-4xl mx-auto">
+            <!-- Hero Section -->
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-extrabold text-gray-900 mb-4">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-700">Turnera</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8">Sistema inteligente de agendamiento de turnos</p>
+                <a href="" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg font-semibold">
+                    Iniciar sesión ADMIN
+                </a>
+            </div>
+
+            <!-- Features Section -->
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                    <div class="text-blue-600 font-bold text-xl mb-3">Gestión Eficiente</div>
+                    <p class="text-gray-600">Administra tus turnos de manera simple y efectiva con nuestra interfaz intuitiva.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                    <div class="text-blue-600 font-bold text-xl mb-3">Notificaciones Automáticas</div>
+                    <p class="text-gray-600">Sistema de recordatorios y notificaciones para mantener informados a tus clientes.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                    <div class="text-blue-600 font-bold text-xl mb-3">Reportes Detallados</div>
+                    <p class="text-gray-600">Obtén insights valiosos con nuestros reportes y estadísticas personalizadas.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                    <div class="text-blue-600 font-bold text-xl mb-3">Disponibilidad 24/7</div>
+                    <p class="text-gray-600">Accede a tu sistema de turnos en cualquier momento y desde cualquier dispositivo.</p>
+                </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="text-center bg-blue-50 p-8 rounded-2xl">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">¿Listo para comenzar?</h2>
+                <p class="text-gray-600 mb-6">Optimiza la gestión de tus turnos hoy mismo</p>
+                <a href="" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg font-semibold">
+                    Iniciar sesión ADMIN
+                </a>
             </div>
         </div>
     </main>
