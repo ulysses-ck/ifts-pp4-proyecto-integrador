@@ -33,3 +33,8 @@ class TurnDetail(DetailView):
     template_name = "detail_turn.html"
     context_object_name= "turn"
 
+class TurnAvailableView(ListView):
+    model = Turn
+    template_name = "available_turns.html"
+    context_object_name = "available_turns"
+

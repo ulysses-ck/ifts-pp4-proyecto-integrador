@@ -7,4 +7,5 @@ urlpatterns = [
     path('<int:pk>/update/',views.TurnUpdate.as_view(), name='update_turn'),
     path('<int:pk>/delete/',views.TurnDelete.as_view(), name='delete_turn'),
     path('<int:pk>/detail/',views.TurnDetail.as_view(), name='detail_turn'),
+    path('available/', views.TurnAvailableView.as_view(), name='available_turns'),
 ]
