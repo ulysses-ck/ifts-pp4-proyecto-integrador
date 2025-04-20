@@ -1,0 +1,24 @@
+{
+  "name": "ifts-pp4-proyecto-integrador",
+  "version": "1.0.0",
+  "description": "Este es el proyecto integrador de la materia de Prácticas Profesionales 4 de la carrera de Desarrollo de Software en IFTS 18.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ulysses-ck/ifts-pp4-proyecto-integrador.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ulysses-ck/ifts-pp4-proyecto-integrador/issues"
+  },
+  "homepage": "https://github.com/ulysses-ck/ifts-pp4-proyecto-integrador#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.4",
+    "tailwindcss": "^4.1.4"
+  }
+}

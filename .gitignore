@@ -55,3 +55,14 @@ docs/_build/
 
 # dbml
 db.dbml
+
+# static
+static/
+
+
+# media
+media/
+
+# node_modules
+node_modules/
+
