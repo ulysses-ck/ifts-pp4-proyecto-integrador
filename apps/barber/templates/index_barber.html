@@ -1,11 +1,54 @@
-<h1>Lista de Babero</h1>
-<a href="{% url 'barber:create_barber' %}">Nuevo barbero</a>
-<ul>
-    {% for barber in barbers %}
-    <li>
-        <a href="{% url 'barber:detail_barber' barber.pk %}">{{ barber.name }}</a> - ${{ barber.email }}
-        (<a href="{% url 'barber:update_barber' barber.pk %}">Editar</a> |
-        <a href="{% url 'barber:delete_barber' barber.pk %}">Eliminar</a>)
-    </li>
-    {% endfor %}
-</ul>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">Lista de Barberos</h1>
+            <a href="{% url 'barber:create_barber' %}"
+               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+                Nuevo barbero
+            </a>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="divide-y divide-gray-200">
+                {% for barber in barbers %}
+                <div class="p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">
+                                {{ barber.name }}
+                            </h3>
+                            <p class="text-gray-600">
+                                Email: {{ barber.email }}
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <a href="{% url 'barber:detail_barber' barber.pk %}"
+                               class="text-gray-600 hover:text-gray-900">
+                                Ver detalles
+                            </a>
+                            <span class="text-gray-300">|</span>
+                            <a href="{% url 'barber:update_barber' barber.pk %}"
+                               class="text-blue-600 hover:text-blue-800">
+                                Editar
+                            </a>
+                            <span class="text-gray-300">|</span>
+                            <a href="{% url 'barber:delete_barber' barber.pk %}"
+                               class="text-red-600 hover:text-red-800">
+                                Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="p-8 text-center text-gray-500">
+                    No hay barberos registrados.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
