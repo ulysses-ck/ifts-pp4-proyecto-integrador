@@ -92,66 +92,75 @@
         </div>
 
         <!-- Week List -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-            <div class="divide-y divide-gray-200">
-                {% for date in week_dates %}
-                <div class="p-4 {% if date == current_date %}bg-blue-50{% endif %} hover:bg-gray-50 transition-colors duration-200">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 divide-y divide-gray-200">
+            {% for date in week_dates %}
+            <div class="{% if date == current_date %}bg-blue-50{% endif %} hover:bg-gray-50 transition-colors duration-200">
+                <!-- Day Header -->
+                <div class="px-6 py-4 border-b border-gray-100">
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-36">
-                                <div class="font-semibold text-gray-700">
-                                    {% with day_name=date|date:"l" %}
-                                    {% if day_name == 'Monday' %}Lunes
-                                    {% elif day_name == 'Tuesday' %}Martes
-                                    {% elif day_name == 'Wednesday' %}Miércoles
-                                    {% elif day_name == 'Thursday' %}Jueves
-                                    {% elif day_name == 'Friday' %}Viernes
-                                    {% elif day_name == 'Saturday' %}Sábado
-                                    {% else %}Domingo{% endif %}
-                                    {% endwith %}
-                                </div>
-                                <div class="text-2xl font-bold {% if date == current_date %}text-blue-500{% else %}text-gray-800{% endif %}">
-                                    {{ date|date:"d" }}
-                                </div>
-                                <div class="text-sm text-gray-500">
-                                    {% with month_name=date|date:"F" %}
-                                    {% if month_name == 'January' %}Enero
-                                    {% elif month_name == 'February' %}Febrero
-                                    {% elif month_name == 'March' %}Marzo
-                                    {% elif month_name == 'April' %}Abril
-                                    {% elif month_name == 'May' %}Mayo
-                                    {% elif month_name == 'June' %}Junio
-                                    {% elif month_name == 'July' %}Julio
-                                    {% elif month_name == 'August' %}Agosto
-                                    {% elif month_name == 'September' %}Septiembre
-                                    {% elif month_name == 'October' %}Octubre
-                                    {% elif month_name == 'November' %}Noviembre
-                                    {% else %}Diciembre{% endif %}
-                                    {% endwith %}
-                                    {{ date|date:"Y" }}
-                                </div>
-                            </div>
-                            
-                            {% if date.day in turns_by_date %}
-                            <div class="flex-grow">
-                                <a href="{% url 'turn:home_turn' %}?date={{ date|date:'Y-m-d' }}"
-                                   class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md">
-                                    <span class="mr-2">{{ turns_by_date|get_item:date.day }} turnos</span>
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                    </svg>
-                                </a>
-                            </div>
-                            {% else %}
-                            <div class="flex-grow">
-                                <span class="text-gray-500">No hay turnos disponibles</span>
-                            </div>
-                            {% endif %}
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">
+                                {% with day_name=date|date:"l" %}
+                                {% if day_name == 'Monday' %}Lunes
+                                {% elif day_name == 'Tuesday' %}Martes
+                                {% elif day_name == 'Wednesday' %}Miércoles
+                                {% elif day_name == 'Thursday' %}Jueves
+                                {% elif day_name == 'Friday' %}Viernes
+                                {% elif day_name == 'Saturday' %}Sábado
+                                {% else %}Domingo{% endif %}
+                                {% endwith %}
+                            </h3>
+                            <p class="text-sm text-gray-500">
+                                {{ date|date:"d" }} de 
+                                {% with month_name=date|date:"F" %}
+                                {% if month_name == 'January' %}Enero
+                                {% elif month_name == 'February' %}Febrero
+                                {% elif month_name == 'March' %}Marzo
+                                {% elif month_name == 'April' %}Abril
+                                {% elif month_name == 'May' %}Mayo
+                                {% elif month_name == 'June' %}Junio
+                                {% elif month_name == 'July' %}Julio
+                                {% elif month_name == 'August' %}Agosto
+                                {% elif month_name == 'September' %}Septiembre
+                                {% elif month_name == 'October' %}Octubre
+                                {% elif month_name == 'November' %}Noviembre
+                                {% else %}Diciembre{% endif %}
+                                {% endwith %}
+                                de {{ date|date:"Y" }}
+                            </p>
                         </div>
+                        {% if date.day in turns_by_date %}
+                        <a href="{% url 'turn:home_turn' %}?date={{ date|date:'Y-m-d' }}"
+                           class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md">
+                            <span class="mr-2">Ver todos los turnos</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
-                {% endfor %}
+                
+                <!-- Turns List -->
+                {% if date.day in clients_by_date %}
+                <div class="px-6 py-3">
+                    <div class="space-y-2">
+                        {% for client in clients_by_date|get_item:date.day %}
+                        <div class="flex items-center px-3 py-2 bg-gray-50 rounded-lg">
+                            <span class="text-gray-900">{{ client.time }}</span>
+                            <span class="mx-2 text-gray-300">•</span>
+                            <span class="text-gray-700">{{ client.name }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="px-6 py-4 text-center text-gray-500">
+                    No hay turnos para este día
+                </div>
+                {% endif %}
             </div>
+            {% endfor %}
         </div>
         {% endif %}
     </div>

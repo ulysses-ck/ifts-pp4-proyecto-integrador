@@ -103,18 +103,25 @@ class TurnAvailableView(ListView):
         if view_type == 'week':
             # Get week dates
             week_dates = self.get_week_dates(year, month, day)
+            
+            # Get all turns for the week with client information
             turns = Turn.objects.filter(
                 date__in=week_dates
-            ).annotate(
-                day=TruncDate('date')
-            ).values('date').annotate(
-                count=Count('id')
-            )
+            ).select_related('client').order_by('time')  # Add order by time
             
-            # Create turns_by_date dictionary
+            # Create turns_by_date dictionary with client names
             turns_by_date = {}
-            for turn in turns:
-                turns_by_date[turn['date'].day] = turn['count']
+            clients_by_date = {}
+            for date in week_dates:
+                date_turns = [turn for turn in turns if turn.date == date]
+                turns_by_date[date.day] = len(date_turns)
+                clients_by_date[date.day] = [
+                    {
+                        'name': turn.client.name,
+                        'time': turn.time.strftime('%H:%M') if turn.time else ''
+                    } 
+                    for turn in date_turns
+                ]
             
             # Calculate previous and next week
             current_date = datetime(year, month, day)
@@ -125,6 +132,7 @@ class TurnAvailableView(ListView):
                 'view_type': 'week',
                 'week_dates': week_dates,
                 'turns_by_date': turns_by_date,
+                'clients_by_date': clients_by_date,
                 'prev_week_day': prev_week.day,
                 'prev_week_month': prev_week.month,
                 'prev_week_year': prev_week.year,
