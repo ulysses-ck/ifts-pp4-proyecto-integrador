@@ -273,3 +273,32 @@ Para probar el envío de emails en desarrollo, puedes:
 - Asegúrate de que `.env` esté en tu `.gitignore`
 - Usa diferentes credenciales para desarrollo y producción
 - Considera usar variables de entorno en tu plataforma de hosting en lugar de archivos `.env` en producción
+
+## URLs Disponibles
+
+### Core
+- `/` - Página de inicio
+
+### Barberos
+- `/barber/` - Lista de barberos
+- `/barber/create/` - Crear barbero
+- `/barber/<int:pk>/detail/` - Detalle del barbero
+- `/barber/<int:pk>/update/` - Actualizar barbero
+- `/barber/<int:pk>/delete/` - Eliminar barbero
+
+### Clientes
+- `/client/` - Página principal de clientes
+- `/client/create/` - Crear cliente
+- `/client/list/` - Lista de clientes
+- `/client/update/<int:pk>/` - Actualizar cliente
+- `/client/delete/<int:pk>/` - Eliminar cliente
+
+### Turnos
+- `/turn/` - Página principal de turnos
+- `/turn/create/` - Crear turno
+- `/turn/available/` - Turnos disponibles
+- `/turn/<int:pk>/detail/` - Detalle del turno
+- `/turn/<int:pk>/update/` - Actualizar turno
+- `/turn/<int:pk>/delete/` - Eliminar turno
+
+> **Nota**: Todas las URLs de administración (`/admin/`) están disponibles para usuarios con permisos de administrador.
