@@ -207,3 +207,69 @@ Los estilos de Tailwind ya están configurados en el template base (`templates/b
 ```
 
 > **Nota**: Asegúrate de tener el comando `pnpm watch:css` ejecutándose mientras desarrollas para que los cambios en los estilos se compilen automáticamente.
+
+## Configuración de Email
+
+### Configuración con Gmail
+Para configurar el envío de emails con Gmail, sigue estos pasos:
+
+1. Activa la verificación en dos pasos en tu cuenta de Google:
+   - Ve a [Google Account Security](https://myaccount.google.com/security)
+   - Activa "2-Step Verification"
+
+2. Genera una contraseña de aplicación:
+   - Ve a [App Passwords](https://myaccount.google.com/apppasswords)
+   - Selecciona "App" y "Other (Custom name)"
+   - Ingresa un nombre (ej: "Django App")
+   - Copia la contraseña generada de 16 dígitos
+
+3. Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
+```env
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=tu.email@gmail.com
+EMAIL_HOST_PASSWORD=tu-contraseña-de-16-dígitos
+EMAIL_USE_TLS=True
+DEFAULT_FROM_EMAIL=tu.email@gmail.com
+```
+
+### Otros Servicios SMTP
+El proyecto soporta cualquier servicio SMTP. Aquí hay algunas opciones populares:
+
+1. **SendGrid** (Gratis hasta 100 emails/día):
+```env
+EMAIL_HOST=smtp.sendgrid.net
+EMAIL_PORT=587
+EMAIL_HOST_USER=apikey
+EMAIL_HOST_PASSWORD=tu-api-key
+```
+
+2. **Amazon SES** (Muy económico para producción):
+```env
+EMAIL_HOST=email-smtp.us-east-1.amazonaws.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=tu-access-key
+EMAIL_HOST_PASSWORD=tu-secret-key
+```
+
+3. **Mailgun** (Gratis hasta 100 emails/día):
+```env
+EMAIL_HOST=smtp.mailgun.org
+EMAIL_PORT=587
+EMAIL_HOST_USER=tu-usuario
+EMAIL_HOST_PASSWORD=tu-contraseña
+```
+
+### Modo Desarrollo
+Durante el desarrollo, los emails se imprimen en la consola en lugar de ser enviados. Esto se configura automáticamente cuando `DEBUG=True` en `settings.py`.
+
+Para probar el envío de emails en desarrollo, puedes:
+1. Desactivar el modo debug en `settings.py`
+2. Usar un servicio de prueba como [Mailtrap](https://mailtrap.io/)
+3. Usar un servidor SMTP local como [MailHog](https://github.com/mailhog/MailHog)
+
+### Seguridad
+- Nunca commits el archivo `.env` a tu repositorio
+- Asegúrate de que `.env` esté en tu `.gitignore`
+- Usa diferentes credenciales para desarrollo y producción
+- Considera usar variables de entorno en tu plataforma de hosting en lugar de archivos `.env` en producción
