@@ -71,6 +71,13 @@ class TurnAvailableView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
+        # Spanish month names
+        SPANISH_MONTHS = {
+            1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+            5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+            9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+        }
+        
         # Get current year and month
         today = datetime.now()
         year = self.request.GET.get('year', today.year)
@@ -79,7 +86,7 @@ class TurnAvailableView(ListView):
         
         # Create calendar data
         cal = calendar.monthcalendar(year, month)
-        month_name = calendar.month_name[month]
+        month_name = SPANISH_MONTHS[month]  # Use Spanish month name instead of English
         
         # Get all turns for this month
         first_day = datetime(year, month, 1)
