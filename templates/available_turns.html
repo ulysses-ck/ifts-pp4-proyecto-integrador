@@ -22,14 +22,14 @@
         <!-- Month View -->
         <!-- Calendar Header -->
         <div class="flex items-center justify-between mb-6">
-            <a href="?view=month&month={{ prev_month }}&year={{ prev_year }}" 
+            <a href="?view={{ view_type }}&month={{ prev_month }}&year={{ prev_year }}" 
                class="text-blue-600 hover:text-blue-800 flex items-center transition-colors duration-200">
                 <span class="mr-2">←</span> Mes anterior
             </a>
             <h2 class="text-3xl font-bold text-gray-800">
                 {{ month_name }} {{ year }}
             </h2>
-            <a href="?view=month&month={{ next_month }}&year={{ next_year }}"
+            <a href="?view={{ view_type }}&month={{ next_month }}&year={{ next_year }}"
                class="text-blue-600 hover:text-blue-800 flex items-center transition-colors duration-200">
                 Mes siguiente <span class="ml-2">→</span>
             </a>

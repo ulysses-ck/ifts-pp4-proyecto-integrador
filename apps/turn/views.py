@@ -88,9 +88,16 @@ class TurnAvailableView(ListView):
         
         # Get current year, month and view type
         today = datetime.now()
-        year = int(self.request.GET.get('year', today.year))
-        month = int(self.request.GET.get('month', today.month))
-        day = int(self.request.GET.get('day', today.day))
+        try:
+            year = int(self.request.GET.get('year', today.year))
+            month = int(self.request.GET.get('month', today.month))
+            day = int(self.request.GET.get('day', today.day))
+        except (ValueError, TypeError):
+            # If any conversion fails, use current date
+            year = today.year
+            month = today.month
+            day = today.day
+            
         view_type = self.request.GET.get('view', 'month')  # 'month' or 'week'
         
         if view_type == 'week':
