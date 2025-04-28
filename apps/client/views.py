@@ -14,3 +14,20 @@ class CLientCreateView(CreateView):
     template_name = "formulario_client.html"
     fields = ['name', 'email', 'phone']
     success_url = reverse_lazy('client:Home_client')
+
+class ClientListView(ListView):
+    model = Client
+    template_name = 'list-client.html'
+    context_object_name = 'clients'
+    ordering = ['name']
+
+class ClientUpdateView(UpdateView):
+    model = Client
+    template_name = 'formulario_client.html'
+    fields = ['name', 'email', 'phone']
+    success_url = reverse_lazy('client:list_client')
+
+class ClientDeleteView(DeleteView):
+    model = Client
+    template_name = 'client_confirm_delete.html'
+    success_url = reverse_lazy('client:list_client')
