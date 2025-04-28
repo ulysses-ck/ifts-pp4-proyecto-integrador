@@ -65,3 +65,10 @@ node_modules/
 # output
 static/dist/output.css
 
+# env
+.env.production
+.env.development
+.env.local
+.env
+!.env.example
+

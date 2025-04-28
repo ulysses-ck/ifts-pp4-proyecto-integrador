@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$x#xlo0t&p$(gq5$6@#i_bxi8i(_-v5z95%8jy&vc+#wt6_%u!'
+print(os.getenv('SECRET_KEY'))
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,7 +37,8 @@ ALLOWED_HOSTS = [
 ]
 
 # CSRF CONFIGURATION
-CSRF_TRUSTED_ORIGINS = ['https://ulyssesck.pythonanywhere.com']
+print(os.getenv('CSRF_TRUSTED_ORIGIN'))
+CSRF_TRUSTED_ORIGINS = [os.getenv('CSRF_TRUSTED_ORIGIN')]
 
 # Application definition
 
@@ -165,4 +171,8 @@ except ImportError:
     pass
 else:
     INSTALLED_APPS += ("django_dbml",)
+
+# Email Settings
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
