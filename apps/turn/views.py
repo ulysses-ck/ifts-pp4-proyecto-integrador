@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from pyexpat.errors import messages
+from django.shortcuts import redirect, render
+from apps.Usuarios.forms import LoginForm, RegisterForm
+from apps.turn.forms import TurnForm
 from .models import Turn
-from .forms import TurnForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 from datetime import datetime, timedelta
@@ -9,6 +11,7 @@ from django.db.models import Count
 from django.db.models.functions import TruncDate
 from django.core.mail import send_mail
 from django.conf import settings
+from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
 
@@ -221,4 +224,3 @@ class TurnAvailableView(ListView):
             })
             
         return context
-
