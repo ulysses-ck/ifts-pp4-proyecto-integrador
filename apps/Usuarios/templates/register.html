@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Registrar usuario</h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">
+                Registrar
+            </button>
+        </form>
+        <a href="{% url 'user:login' %}" class="block text-center text-blue-600 hover:text-blue-800 mt-4">
+            ¿Ya tienes cuenta? Inicia sesión
+        </a>
+    </div>
+</div>
+{% endblock %}
