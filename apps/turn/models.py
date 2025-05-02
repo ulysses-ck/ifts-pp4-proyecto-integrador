@@ -10,3 +10,4 @@ class Turn(models.Model):
 
     def __str__(self):
         return f"{self.client.name} con {self.barber.name} el {self.date} a las {self.time}"
+    

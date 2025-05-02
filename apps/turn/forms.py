@@ -1,5 +1,5 @@
 from django import forms
-from .models import Turn  
+from .models import Turn
 
 class TurnForm(forms.ModelForm):
     class Meta:

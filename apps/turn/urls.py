@@ -1,6 +1,8 @@
 from django.urls import path, include
 from . import views
+
 app_name = 'turn'
+
 urlpatterns = [
     path('',views.TurnHome.as_view(), name='home_turn'),
     path('create/',views.TurnCreate.as_view(), name='turn_create'),
