@@ -54,14 +54,14 @@ LOCAL_APPS = [
     'apps.client',
     'apps.barber',
     'apps.turn',
-    'apps.core',
+    'apps.Usuarios',
 ]
 
 CUSTOM_APPS = [
     "widget_tweaks",
 ]
 
-AUTH_USER_MODEL = 'core.CustomUser'
+AUTH_USER_MODEL = 'Usuarios.User'
 
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + CUSTOM_APPS
