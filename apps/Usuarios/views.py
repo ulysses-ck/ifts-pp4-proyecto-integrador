@@ -9,21 +9,6 @@ from apps.Usuarios.models import User
 from django.contrib import messages
 
 # Create your views here.
-# Vista de registro
-@csrf_protect
-def register_view(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()  # Guarda el usuario y el UserAdmin asociado
-            return redirect('user:login')  # Redirige a la página de inicio o a donde desees
-    else:
-        form = RegisterForm()
-    
-    return render(request, 'register.html', {'form': form})
-
-
-
 
 # Vista de login
 @csrf_protect
