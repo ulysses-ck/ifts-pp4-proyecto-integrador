@@ -6,9 +6,72 @@
     <title>{% block title %}Turnera{% endblock %}</title>
 </head>
 
-<body>
-    <div id="content">
+<body class="bg-gray-100 font-sans">
+    <!-- Menú de Navegación -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="/" class="flex items-center text-xl font-bold text-gray-800 hover:text-blue-600">
+                        Turnera
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <!-- Core -->
+                    <a href="/" class="text-gray-700 hover:text-blue-600">Inicio</a>
+
+                    <!-- Barberos -->
+                    <a href="/barber/" class="text-gray-700 hover:text-blue-600">Barberos</a>
+                    <a href="/barber/create/" class="text-gray-700 hover:text-blue-600">Crear Barbero</a>
+
+                    <!-- Clientes -->
+                    <a href="/client/" class="text-gray-700 hover:text-blue-600">Clientes</a>
+                    <a href="/client/create/" class="text-gray-700 hover:text-blue-600">Crear Cliente</a>
+                    <a href="/client/list/" class="text-gray-700 hover:text-blue-600">Lista Clientes</a>
+
+                    <!-- Turnos -->
+                    <a href="/turn/" class="text-gray-700 hover:text-blue-600">Turnos</a>
+                    <a href="/turn/create/" class="text-gray-700 hover:text-blue-600">Crear Turno</a>
+                    <a href="/turn/available/" class="text-gray-700 hover:text-blue-600">Disponibles</a>
+                </div>
+                <!-- Menú móvil -->
+                <div class="md:hidden flex items-center">
+                    <button id="menu-btn" class="text-gray-700 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Contenido desplegable móvil -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
+            <a href="/" class="block text-gray-700 hover:text-blue-600">Inicio</a>
+            <a href="/barber/" class="block text-gray-700 hover:text-blue-600">Barberos</a>
+            <a href="/barber/create/" class="block text-gray-700 hover:text-blue-600">Crear Barbero</a>
+            <a href="/client/" class="block text-gray-700 hover:text-blue-600">Clientes</a>
+            <a href="/client/create/" class="block text-gray-700 hover:text-blue-600">Crear Cliente</a>
+            <a href="/client/list/" class="block text-gray-700 hover:text-blue-600">Lista Clientes</a>
+            <a href="/turn/" class="block text-gray-700 hover:text-blue-600">Turnos</a>
+            <a href="/turn/create/" class="block text-gray-700 hover:text-blue-600">Crear Turno</a>
+            <a href="/turn/available/" class="block text-gray-700 hover:text-blue-600">Disponibles</a>
+        </div>
+    </nav>
+
+    <div id="content" class="p-4">
         {% block content %}{% endblock %}
     </div>
+
+    <!-- Script para alternar el menú móvil -->
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
