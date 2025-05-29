@@ -287,9 +287,8 @@ Para probar el envío de emails en desarrollo, puedes:
 - `/barber/<int:pk>/delete/` - Eliminar barbero
 
 ### Clientes
-- `/client/` - Página principal de clientes
-- `/client/create/` - Crear cliente
-- `/client/list/` - Lista de clientes
+- `/client/` - lista de clientes
+- `/client/create/` - Crear cliente 
 - `/client/update/<int:pk>/` - Actualizar cliente
 - `/client/delete/<int:pk>/` - Eliminar cliente
 
