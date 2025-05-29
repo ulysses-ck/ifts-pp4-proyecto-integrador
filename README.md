@@ -157,7 +157,7 @@ Con Volta y node instalado, ahora instala pnpm:
 volta install pnpm
 ```
 
-### Instalación de dependencias de Tailwind
+### Instalación de dependencias de Tailwind (tenes que estar en el proyecto)
 ```bash
 # Instalar dependencias usando pnpm
 pnpm install
