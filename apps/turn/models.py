@@ -22,9 +22,10 @@ class Turn(models.Model):
     barber = models.ForeignKey(Barber, on_delete=models.CASCADE)
     date = models.DateField()
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
+    is_confirmed = models.BooleanField(default=False, null=True)
 
     class Meta:
-        unique_together = ['barber', 'date', 'time_slot']
+        unique_together = ['barber', 'date', 'time_slot', 'is_confirmed']
 
     def __str__(self):
-        return f"{self.client.name} con {self.barber.name} el {self.date} a las {self.time_slot}"
+        return f"{self.client.name} con {self.barber.name} el {self.date} a las {self.time_slot} ({self.is_confirmed})"
