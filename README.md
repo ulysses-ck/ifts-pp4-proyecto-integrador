@@ -126,6 +126,15 @@ python manage.py runscript seed
 uv run manage.py runscript seed
 ```
 
+Para poblar solamente los espacios de turnos(este paso es necesario para poder registrar turnos):
+```bash
+# Usando Python directamente
+python manage.py runscript seed-turn
+
+# Usando uv
+uv run manage.py runscript seed-turn
+```
+
 > **Nota**: Asegúrate de tener el entorno virtual activado antes de ejecutar cualquiera de estos comandos.
 
 ## Configuración de Tailwind CSS
