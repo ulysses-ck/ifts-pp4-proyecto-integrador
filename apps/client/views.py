@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from apps.barber.models import Barber
 from apps.client.form import ClientForm
 from apps.client.models import Client
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 from apps.turn.models import TimeSlot, Turn
