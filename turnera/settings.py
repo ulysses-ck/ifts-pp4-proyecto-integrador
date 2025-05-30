@@ -55,6 +55,7 @@ LOCAL_APPS = [
     'apps.barber',
     'apps.turn',
     'apps.Usuarios',
+    'apps.core'
 ]
 
 CUSTOM_APPS = [
