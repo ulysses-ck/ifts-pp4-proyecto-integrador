@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from apps.barber.models import Barber
 from apps.client.form import ClientForm
 from apps.client.models import Client
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView ,TemplateView
 from django.urls import reverse_lazy
 
 from apps.turn.models import TimeSlot, Turn
@@ -90,7 +90,7 @@ class ClientCreateWithTurnView(CreateView):
                 
                 if not existing_turn:
                     # Crear el turno
-                    Turn.objects.create(
+                    turno = Turn.objects.create(
                         client=client,
                         barber=barber,
                         date=today,
@@ -100,7 +100,7 @@ class ClientCreateWithTurnView(CreateView):
                     # # Enviar email de confirmación
                     # self.send_confirmation_email(client, barber, time_slot, today)
                     
-                    return redirect('client:success')
+                    return redirect('client:success', turno_id=turno.id)
                 else:
                     # El turno ya fue reservado por otro cliente
                     form.add_error(None, "Lo sentimos, este horario ya fue reservado por otro cliente.")
@@ -112,9 +112,14 @@ class ClientCreateWithTurnView(CreateView):
         
         return super().form_valid(form)
 
-def client_success_view(request):
-    """Vista de confirmación después de reservar turno"""
-    return render(request, 'success.html')
+class SuccessView(TemplateView):
+    template_name = 'success.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        turno_id = self.kwargs.get('turno_id')
+        context['turno'] = Turn.objects.get(id=turno_id)
+        return context
 
 
 class ClientListView(ListView):
