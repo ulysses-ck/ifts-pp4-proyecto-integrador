@@ -1,6 +1,9 @@
 from pyexpat.errors import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from apps import turn
 from apps.Usuarios.forms import LoginForm, RegisterForm
+from apps.client import form
+from apps.turn.api.chistes import get_random_joke
 from apps.turn.forms import TurnForm
 from .models import Turn
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
@@ -13,6 +16,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.views.decorators.csrf import csrf_protect
 
+def some_logic_to_decide_confirmation():
+    raise NotImplementedError
+
 # Create your views here.
 
 
@@ -20,6 +26,7 @@ class TurnHome(ListView):
     model = Turn
     template_name = "home_turn.html"
     context_object_name = "turns"
+
     
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -44,34 +51,71 @@ class TurnHome(ListView):
                 context['selected_date'] = filter_date
             except ValueError:
                 pass
-                
+    
+      # Agregamos el chiste al contexto, solo es de test esto
+        context['joke'] = get_random_joke()
         return context
+                
+    
 
 class TurnCreate(CreateView):
     form_class = TurnForm
     template_name = "formulario_turn.html"
     success_url = reverse_lazy('turn:home_turn')
 
+class ConfirmTurnView(View):
+    template_name = 'confirm_turn.html'
+
+    def get(self, request, pk):
+        turn = get_object_or_404(Turn, pk=pk)
+        if turn.is_confirmed:
+            return redirect('turn:home_turn')
+        return render(request, self.template_name, {'turn': turn})
+
+    def post(self, request, pk):
+        turn = get_object_or_404(Turn, pk=pk)
+        confirm = request.POST.get('confirm')
+
+        if confirm == 'yes':
+            turn.is_confirmed = True
+        elif confirm == 'no':
+            turn.is_confirmed = None
+
+        turn.save()
+        self.send_confirmation_email(turn)
+        return redirect('turn:home_turn')
+     
+    
+    def send_confirmation_email(self, turn):
+        from django.conf import settings
+        from django.core.mail import send_mail
+
+        joke = get_random_joke()  # obtenemos el chiste dinámicamente
+
+        subject = 'Confirmación de Turno'
+        message = (
+            f'Tienes un turno confirmado con {turn.barber.name} el {turn.date} a las {turn.time_slot}.\n\n'
+            f'Y para que te rías un poco:\n{joke}'
+        )
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [turn.client.email]
+
+        response = send_mail(
+            subject,
+            message,
+            from_email,
+            recipient_list,
+            fail_silently=True,
+        )
+        return response
+
+
     # def form_valid(self, form):
     #     response = super().form_valid(form)
     #     # Get the turn instance that was just created
     #     turn = self.object
 
-    #     # Send email to client
-    #     subject = 'Confirmación de Turno'
-    #     message = f'Tienes un turno con {turn.barber.name} a las {turn.time_slot.start_time.strftime("%H:%M")}'
-    #     from_email = settings.DEFAULT_FROM_EMAIL
-    #     recipient_list = [turn.client.email]
-
-    #     send_mail(
-    #         subject,
-    #         message,
-    #         from_email,
-    #         recipient_list,
-    #         fail_silently=True,
-    #     )
-
-    #     return response
+   
 
 class TurnUpdate(UpdateView):
     model = Turn
@@ -88,6 +132,8 @@ class TurnDetail(DetailView):
     model = Turn
     template_name = "detail_turn.html"
     context_object_name= "turn"
+
+
 
 class TurnAvailableView(ListView):
     model = Turn

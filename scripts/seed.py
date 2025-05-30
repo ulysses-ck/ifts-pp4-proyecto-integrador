@@ -1,7 +1,7 @@
 from faker import Faker
 from apps.client.models import Client
 from apps.barber.models import Barber
-from apps.turn.models import Turn
+from apps.turn.models import TimeSlot, Turn
 import random
 from datetime import datetime
 import logging
@@ -69,7 +69,7 @@ def seed_turn():
             client=random.choice(clients),
             barber=random.choice(barbers),
             date=random_date,
-            time_slot=random_time,
+            time_slot=TimeSlot.objects.create(start_time=random_time, end_time=random_time),
         )
         count += 1
     

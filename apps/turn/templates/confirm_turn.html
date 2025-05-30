@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-10 bg-white rounded-lg shadow px-6 py-4">
+    <h2 class="text-2xl font-bold mb-4">Confirmar Turno</h2>
+    <p class="text-gray-600">¿Deseás confirmar el turno para <strong class="font-bold">{{ turn.client.name }}</strong> con <strong class="font-bold">{{ turn.barber.name }}</strong> el <strong class="font-bold">{{ turn.date|date:"d/m/Y" }}</strong> a las <strong class="font-bold">{{ turn.time_slot }}</strong>?</p>
+
+    <form method="post" class="mt-4 flex gap-4">
+        {% csrf_token %}
+        <button name="confirm" value="yes" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+            Sí, confirmar
+        </button>
+        <button name="confirm" value="no" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300">
+            No confirmar
+        </button>
+    </form>
+</div>
+{% endblock %}
+
