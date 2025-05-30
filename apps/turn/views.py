@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
 
+
 class TurnHome(ListView):
     model = Turn
     template_name = "home_turn.html"
@@ -47,31 +48,30 @@ class TurnHome(ListView):
         return context
 
 class TurnCreate(CreateView):
-    model = Turn
     form_class = TurnForm
     template_name = "formulario_turn.html"
     success_url = reverse_lazy('turn:home_turn')
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        # Get the turn instance that was just created
-        turn = self.object
-        
-        # Send email to client
-        subject = 'Confirmación de Turno'
-        message = f'Tienes un turno con {turn.barber.name} a las {turn.time.strftime("%H:%M")}'
-        from_email = settings.DEFAULT_FROM_EMAIL
-        recipient_list = [turn.client.email]
-        
-        send_mail(
-            subject,
-            message,
-            from_email,
-            recipient_list,
-            fail_silently=True,
-        )
-        
-        return response
+    # def form_valid(self, form):
+    #     response = super().form_valid(form)
+    #     # Get the turn instance that was just created
+    #     turn = self.object
+
+    #     # Send email to client
+    #     subject = 'Confirmación de Turno'
+    #     message = f'Tienes un turno con {turn.barber.name} a las {turn.time_slot.start_time.strftime("%H:%M")}'
+    #     from_email = settings.DEFAULT_FROM_EMAIL
+    #     recipient_list = [turn.client.email]
+
+    #     send_mail(
+    #         subject,
+    #         message,
+    #         from_email,
+    #         recipient_list,
+    #         fail_silently=True,
+    #     )
+
+    #     return response
 
 class TurnUpdate(UpdateView):
     model = Turn

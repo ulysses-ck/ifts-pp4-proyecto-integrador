@@ -69,7 +69,7 @@ def seed_turn():
             client=random.choice(clients),
             barber=random.choice(barbers),
             date=random_date,
-            time=random_time,
+            time_slot=random_time,
         )
         count += 1
     

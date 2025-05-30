@@ -1,18 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home del Cliente</title>
+    <title>Barbería - Reserva tu turno</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Bienvenido</h1>
-    <h2>Turnos Disponibles</h2>
-    <ul class="turn-list">
-        <li class="turn-item">Turno 1: 09:00 - 09:45 <a href="{% url 'client:create_client' %}">Reservar</a></li>
-        <li class="turn-item">Turno 2: 10:00 - 10:45</li>
-        <li class="turn-item">Turno 3: 11:00 - 11:45</li>
-    </ul>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">✂️ Barbería Premium</h1>
+            <p class="text-xl text-gray-600">Reserva tu turno para hoy</p>
+            <p class="text-lg text-gray-500 mt-2">{{ today|date:"l, d \d\e F \d\e Y" }}</p>
+        </div>
+
+        <!-- Horarios Disponibles -->
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">🕐 Horarios Disponibles Hoy</h2>
+                </div>
+
+                <div class="p-6">
+                    {% if available_slots %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {% for slot in available_slots %}
+                            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 bg-green-50 border-green-200">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="text-lg font-semibold text-gray-800">
+                                            {{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}
+                                        </div>
+                                        <div class="text-sm text-green-600 font-medium mt-1">
+                                            ✅ Disponible
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'client:create_with_turn' slot.id %}" 
+                                           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 inline-flex items-center">
+                                            <span class="mr-1">📅</span>
+                                            Reservar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-12">
+                            <div class="text-6xl mb-4">😔</div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-2">No hay turnos disponibles hoy</h3>
+                            <p class="text-gray-500">Todos los horarios de hoy están ocupados. Te invitamos a volver mañana.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Información adicional -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">👨‍💼 Nuestros Barberos</h3>
+                    <div class="space-y-2">
+                        {% for barber in avaible_barbers %}
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                            <span class="text-gray-700">{{ barber.name }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">ℹ️ Información</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li>• Duración aproximada: 45 minutos</li>
+                        <li>• Llega 5 minutos antes de tu turno</li>
+                        <li>• Recibirás confirmación por email</li>
+                        <li>• Cancelaciones: llamar con 2hs de anticipación</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-12 text-center text-gray-500 text-sm">
+        <p>&copy; 2024 Barbería Premium. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>
-
