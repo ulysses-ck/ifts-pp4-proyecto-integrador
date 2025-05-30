@@ -1,3 +1,5 @@
+{% load user_tags %}
+{% is_logged_in as logged_in %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,14 +18,30 @@
                 <!-- Menú desktop -->
                 <div class="hidden md:flex space-x-4 items-center">
                     <a href="/" class="text-gray-700 hover:text-blue-600">Inicio</a>
+
+                    <!-- Barberos -->
                     <a href="/barber/" class="text-gray-700 hover:text-blue-600">Barberos</a>
                     <a href="/barber/create/" class="text-gray-700 hover:text-blue-600">Crear Barbero</a>
+
+                    <!-- Clientes -->
                     <a href="/client/" class="text-gray-700 hover:text-blue-600">Clientes</a>
-                    <a href="/client/create/" class="text-gray-700 hover:text-blue-600">Crear Cliente</a>
+                    <a href="/client/list/" class="text-gray-700 hover:text-blue-600">Listado</a>
+                    <a href="/client/reservar/1/" class="text-gray-700 hover:text-blue-600">Reservar Turno</a>
+                    <a href="/client/confirmacion/" class="text-gray-700 hover:text-blue-600">Confirmación</a>
+
+                    <!-- Turnos -->
                     <a href="/turn/" class="text-gray-700 hover:text-blue-600">Turnos</a>
                     <a href="/turn/create/" class="text-gray-700 hover:text-blue-600">Crear Turno</a>
                     <a href="/turn/available/" class="text-gray-700 hover:text-blue-600">Disponibles</a>
+
+                    <!-- Usuario -->
+                    {% if logged_in %}
+                        <a href="/user/logout/" class="text-gray-700 hover:text-blue-600">Cerrar Sesión</a>
+                    {% else %}
+                        <a href="/user/login/" class="text-gray-700 hover:text-blue-600">Iniciar Sesión</a>
+                    {% endif %}
                 </div>
+
                 <!-- Botón menú móvil -->
                 <button id="menu-btn" class="md:hidden text-gray-700 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,16 +51,32 @@
                 </button>
             </div>
         </div>
+
         <!-- Menú móvil -->
         <div id="mobile-menu" class="md:hidden hidden flex-col px-4 pb-4 space-y-2 bg-white shadow">
             <a href="/" class="block text-gray-700 hover:text-blue-600">Inicio</a>
+
+            <!-- Barberos -->
             <a href="/barber/" class="block text-gray-700 hover:text-blue-600">Barberos</a>
             <a href="/barber/create/" class="block text-gray-700 hover:text-blue-600">Crear Barbero</a>
+
+            <!-- Clientes -->
             <a href="/client/" class="block text-gray-700 hover:text-blue-600">Clientes</a>
-            <a href="/client/create/" class="block text-gray-700 hover:text-blue-600">Crear Cliente</a>
+            <a href="/client/list/" class="block text-gray-700 hover:text-blue-600">Listado</a>
+            <a href="/client/reservar/1/" class="block text-gray-700 hover:text-blue-600">Reservar Turno</a>
+            <a href="/client/confirmacion/" class="block text-gray-700 hover:text-blue-600">Confirmación</a>
+
+            <!-- Turnos -->
             <a href="/turn/" class="block text-gray-700 hover:text-blue-600">Turnos</a>
             <a href="/turn/create/" class="block text-gray-700 hover:text-blue-600">Crear Turno</a>
             <a href="/turn/available/" class="block text-gray-700 hover:text-blue-600">Disponibles</a>
+
+            <!-- Usuario -->
+            {% if logged_in %}
+                <a href="/user/logout/" class="block text-gray-700 hover:text-blue-600">Cerrar Sesión</a>
+            {% else %}
+                <a href="/user/login/" class="block text-gray-700 hover:text-blue-600">Iniciar Sesión</a>
+            {% endif %}
         </div>
     </nav>
 
@@ -54,7 +88,6 @@
     <script>
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
-
         btn.addEventListener('click', () => {
             menu.classList.toggle('hidden');
         });
