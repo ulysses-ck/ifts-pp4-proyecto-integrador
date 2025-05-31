@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from apps.barber.models import Barber
 from apps.client.form import ClientForm
 from apps.client.models import Client
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView ,TemplateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView ,TemplateView, FormView
 from django.urls import reverse_lazy
 
 from apps.turn.models import TimeSlot, Turn
@@ -39,9 +39,8 @@ class ClientHome(ListView):
 
         return context
 
-class ClientCreateWithTurnView(CreateView):
+class ClientCreateWithTurnView(FormView):
     """Vista para crear cliente y asignar turno simultáneamente"""
-    model = Client
     form_class = ClientForm
     template_name = 'formulario_client.html'
     
@@ -68,49 +67,50 @@ class ClientCreateWithTurnView(CreateView):
         return context
     
     def form_valid(self, form):
-        # Guardar el cliente
-        client = form.save()
-        
-        # Obtener datos del formulario POST
+        email = form.cleaned_data.get('email')
+
+        # Buscar o crear el cliente sin que Django intente validarlo por duplicado
+        client, created = Client.objects.get_or_create(
+            email=email,
+            defaults={
+                'name': form.cleaned_data.get('name'),
+                'phone': form.cleaned_data.get('phone'),
+            }
+        )
+
+        if not created:
+            # Si ya existe, actualizá su info si querés
+            client.name = form.cleaned_data.get('name')
+            client.phone = form.cleaned_data.get('phone')
+            client.save()
+
+        # Turno
         time_slot_id = self.kwargs.get('time_slot_id')
         barber_id = self.request.POST.get('barber')
-        
+
         if time_slot_id and barber_id:
             try:
                 time_slot = TimeSlot.objects.get(id=time_slot_id)
                 barber = Barber.objects.get(id=barber_id)
-                
-                # Verificar que el turno aún esté disponible
                 today = date.today()
-                existing_turn = Turn.objects.filter(
-                    date=today,
-                    time_slot=time_slot,
-                    barber=barber
-                ).exists()
-                
-                if not existing_turn:
-                    # Crear el turno
-                    turno = Turn.objects.create(
-                        client=client,
-                        barber=barber,
-                        date=today,
-                        time_slot=time_slot
-                    )
-                    
-                    # # Enviar email de confirmación
-                    # self.send_confirmation_email(client, barber, time_slot, today)
-                    
-                    return redirect('client:success', turno_id=turno.id)
-                else:
-                    # El turno ya fue reservado por otro cliente
+
+                if Turn.objects.filter(date=today, time_slot=time_slot, barber=barber).exists():
                     form.add_error(None, "Lo sentimos, este horario ya fue reservado por otro cliente.")
                     return self.form_invalid(form)
-                    
+
+                turno = Turn.objects.create(
+                    client=client,
+                    barber=barber,
+                    date=today,
+                    time_slot=time_slot
+                )
+                return redirect('client:success', turno_id=turno.id)
+
             except (TimeSlot.DoesNotExist, Barber.DoesNotExist):
                 form.add_error(None, "Error en la selección de horario o barbero.")
                 return self.form_invalid(form)
-        
-        return super().form_valid(form)
+
+        return self.form_invalid(form)
 
 class SuccessView(TemplateView):
     template_name = 'success.html'

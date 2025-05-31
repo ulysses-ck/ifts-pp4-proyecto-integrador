@@ -24,3 +24,13 @@ class ClientForm(forms.ModelForm):
                 'class': 'form-control'
             }),
         }
+    def validate_unique(self):
+        # Sobrescribe la validación de unicidad para ignorarla
+        pass
+    def clean_email(self):
+        """
+        Permite que el email ya exista si solo se está reutilizando, sin levantar error.
+        """
+        email = self.cleaned_data['email']
+        # No hacer validación de unicidad en el formulario, se maneja en la vista
+        return email
