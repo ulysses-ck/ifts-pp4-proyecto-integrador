@@ -20,6 +20,18 @@
                     <a href="{% url 'user:logout' %}">Logout</a>
                 </div>
             </div>
+            {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                <div class="p-4 rounded-lg shadow text-sm font-semibold 
+                    {% if 'error' in message.tags %}bg-red-100 text-red-800 
+                    {% elif 'success' in message.tags %}bg-green-100 text-green-800 
+                    {% else %}bg-gray-100 text-gray-700{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
 
             {% if selected_date %}
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
