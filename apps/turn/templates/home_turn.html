@@ -1,103 +1,104 @@
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
-    {% block content %}
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="flex justify-between items-center mb-6">
-                <!-- es solo de test -->
-                <h3>Chistes: {{joke}}</h3>
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Turnos</h1>
-                    {% if selected_date %}
-                    <p class="text-gray-600 mt-2">Mostrando turnos para el {{ selected_date|date:"d/m/Y" }}</p>
-                    {% endif %}
-                </div>
-                <div class="flex gap-4">
-                    <a href="{% url 'turn:available_turns' %}"
-                    class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">
-                        Ver Calendario
-                    </a>
-                    <a href="{% url 'user:logout' %}">Logout</a>
-                </div>
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-5xl mx-auto space-y-8">
+
+        <!-- Encabezado principal -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Turnos</h1>
+                {% if selected_date %}
+                <p class="text-sm text-gray-600 mt-1">Mostrando turnos para el {{ selected_date|date:"d/m/Y" }}</p>
+                {% endif %}
             </div>
-            {% if messages %}
-            <div class="mb-6">
-                {% for message in messages %}
-                <div class="p-4 rounded-lg shadow text-sm font-semibold 
-                    {% if 'error' in message.tags %}bg-red-100 text-red-800 
-                    {% elif 'success' in message.tags %}bg-green-100 text-green-800 
-                    {% else %}bg-gray-100 text-gray-700{% endif %}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
 
-            {% if selected_date %}
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <div class="flex items-center justify-between">
-                    <p class="text-blue-700">
-                        <span class="font-medium">Filtro activo:</span> {{ selected_date|date:"d/m/Y" }}
-                    </p>
-                    <a href="{% url 'turn:home_turn' %}" class="text-blue-600 hover:text-blue-800">
-                        Quitar filtro
-                    </a>
-                </div>
-            </div>
-            {% endif %}
-
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                <div class="divide-y divide-gray-200">
-                    {% for turn in turns %}
-                    <div class="p-4 hover:bg-gray-50 transition-colors">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-lg font-medium text-gray-900">
-                                    {{ turn.client.name }}
-                                </h3>
-                                <p class="text-gray-600">
-                                    Barbero: {{ turn.barber.name }} | 
-                                    Fecha: {{ turn.date|date:"d/m/Y" }} | 
-                                    Hora: {{ turn.time|time:"H:i" }}
-                                </p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <a href="{% url 'turn:detail_turn' turn.pk %}" 
-                                class="text-gray-600 hover:text-gray-900">
-                                    Ver detalles
-                                </a>
-                                <span class="text-gray-300">|</span>
-                                <a href="{% url 'turn:update_turn' turn.pk %}"
-                                class="text-blue-600 hover:text-blue-800">
-                                    Editar
-                                </a>
-                                <span class="text-gray-300">|</span>
-                                <a href="{% url 'turn:delete_turn' turn.pk %}"
-                                class="text-red-600 hover:text-red-800">
-                                    Eliminar
-                                </a>
-                                {% if not turn.is_confirmed %}
-                                    <a href="{% url 'turn:confirm_turn' turn.pk %}" class="text-gray-600 hover:text-gray-900">
-                                        Confirmar
-                                    </a>
-                                    {% else %}
-                                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded text-sm font-semibold">Confirmado</span>
-                                {% endif %}
-
-                            </div>
-                        </div>
-                    </div>
-                    {% empty %}
-                    <div class="p-8 text-center text-gray-500">
-                        {% if selected_date %}
-                        No hay turnos programados para el {{ selected_date|date:"d/m/Y" }}.
-                        {% else %}
-                        No hay turnos programados.
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                </div>
+            <div class="flex items-center gap-4">
+                <a href="{% url 'turn:available_turns' %}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg text-sm font-medium transition">
+                    Ver Calendario
+                </a>
             </div>
         </div>
+
+        <!-- Mensajes -->
+        {% if messages %}
+        <div class="space-y-2">
+            {% for message in messages %}
+            <div class="p-3 rounded-md shadow-sm text-sm font-medium 
+                {% if 'error' in message.tags %}bg-red-100 text-red-800 
+                {% elif 'success' in message.tags %}bg-green-100 text-green-800 
+                {% else %}bg-gray-100 text-gray-700{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Filtro activo -->
+        {% if selected_date %}
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center justify-between">
+            <p class="text-blue-700 text-sm">
+                <span class="font-semibold">Filtro activo:</span> {{ selected_date|date:"d/m/Y" }}
+            </p>
+            <a href="{% url 'turn:home_turn' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                Quitar filtro
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Lista de turnos -->
+        <div class="bg-white rounded-lg shadow divide-y divide-gray-100">
+            {% for turn in turns %}
+            <div class="p-5 hover:bg-gray-50 transition">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-900">
+                            {{ turn.client.name }}
+                        </h2>
+                        <p class="text-sm text-gray-600 mt-1">
+                            Barbero: {{ turn.barber.name }} &middot;
+                            Fecha: {{ turn.date|date:"d/m/Y" }} &middot;
+                            Hora: {{ turn.time|time:"H:i" }}
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 text-sm">
+                        <a href="{% url 'turn:detail_turn' turn.pk %}" class="text-gray-600 hover:text-gray-900">Ver detalles</a>
+                        <span class="text-gray-300">|</span>
+                        <a href="{% url 'turn:update_turn' turn.pk %}" class="text-blue-600 hover:text-blue-800">Editar</a>
+                        <span class="text-gray-300">|</span>
+                        <a href="{% url 'turn:delete_turn' turn.pk %}" class="text-red-600 hover:text-red-800">Eliminar</a>
+                        {% if not turn.is_confirmed %}
+                        <span class="text-gray-300">|</span>
+                        <a href="{% url 'turn:confirm_turn' turn.pk %}" class="text-gray-600 hover:text-gray-900">Confirmar</a>
+                        {% else %}
+                        <span class="ml-2 bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-semibold">Confirmado</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="p-8 text-center text-gray-500 text-sm">
+                {% if selected_date %}
+                    No hay turnos programados para el {{ selected_date|date:"d/m/Y" }}.
+                {% else %}
+                    No hay turnos programados.
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Chiste destacado -->
+        {% if joke %}
+        <div class="flex items-start gap-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-900 p-4 rounded-md shadow-sm">
+            <svg class="w-5 h-5 mt-1 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h.01M15 12h.01M9.293 16.293a1 1 0 011.414 0L12 17.586l1.293-1.293a1 1 0 011.414 1.414L12 20.414l-2.707-2.707a1 1 0 010-1.414z" />
+            </svg>
+            <div class="text-sm font-medium">
+                <strong>Chiste del día:</strong> {{ joke }}
+            </div>
+        </div>
+        {% endif %}
+
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
