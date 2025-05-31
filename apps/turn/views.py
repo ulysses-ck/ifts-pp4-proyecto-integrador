@@ -15,6 +15,7 @@ from django.db.models.functions import TruncDate
 from django.core.mail import send_mail
 from django.conf import settings
 from django.views.decorators.csrf import csrf_protect
+from apps.core.views import MyLoginRequiredMixin
 
 SPANISH_MONTHS = {
     1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
@@ -28,7 +29,7 @@ def some_logic_to_decide_confirmation():
 # Create your views here.
 
 
-class TurnHome(ListView):
+class TurnHome(MyLoginRequiredMixin, ListView):
     model = Turn
     template_name = "home_turn.html"
     context_object_name = "turns"
@@ -64,7 +65,7 @@ class TurnHome(ListView):
                 
     
 
-class TurnCreate(CreateView):
+class TurnCreate(MyLoginRequiredMixin, CreateView):
     form_class = TurnForm
     template_name = "formulario_turn.html"
     success_url = reverse_lazy('turn:home_turn')
@@ -123,24 +124,24 @@ class ConfirmTurnView(View):
 
    
 
-class TurnUpdate(UpdateView):
+class TurnUpdate(MyLoginRequiredMixin, UpdateView):
     model = Turn
     form_class = TurnForm
     template_name = "formulario_turn.html"
     success_url = reverse_lazy('turn:home_turn')
 
-class TurnDelete(DeleteView):
+class TurnDelete(MyLoginRequiredMixin, DeleteView):
     model = Turn
     template_name = "delete_turn.html"
     success_url = reverse_lazy('turn:home_turn')
 
-class TurnDetail(DetailView):
+class TurnDetail(MyLoginRequiredMixin, DetailView):
     model = Turn
     template_name = "detail_turn.html"
     context_object_name= "turn"
 
 
-class TurnAvailableWeekView(ListView):
+class TurnAvailableWeekView(MyLoginRequiredMixin, ListView):
     model = Turn
     template_name = "available_turns_week.html"
     context_object_name = "available_turns"
@@ -214,7 +215,7 @@ class TurnAvailableWeekView(ListView):
         return context
 
 
-class TurnAvailableMonthView(ListView):
+class TurnAvailableMonthView(MyLoginRequiredMixin, ListView):
     model = Turn
     template_name = "available_turns_month.html"
     context_object_name = "available_turns"

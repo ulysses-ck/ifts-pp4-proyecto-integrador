@@ -6,11 +6,12 @@ from apps.client.models import Client
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView ,TemplateView, FormView
 from django.urls import reverse_lazy
 
+from apps.core.views import MyLoginRequiredMixin
 from apps.turn.models import TimeSlot, Turn
 
 # Create your views here.
 
-class ClientHome(ListView):
+class ClientHome(MyLoginRequiredMixin, ListView):
     template_name = 'home_cliente.html'
     context_object_name = 'available_slots'
 
@@ -112,7 +113,7 @@ class ClientCreateWithTurnView(FormView):
 
         return self.form_invalid(form)
 
-class SuccessView(TemplateView):
+class SuccessView(MyLoginRequiredMixin, TemplateView):
     template_name = 'success.html'
 
     def get_context_data(self, **kwargs):
@@ -122,19 +123,19 @@ class SuccessView(TemplateView):
         return context
 
 
-class ClientListView(ListView):
+class ClientListView(MyLoginRequiredMixin, ListView):
     model = Client
     template_name = 'list-client.html'
     context_object_name = 'clients'
     ordering = ['name']
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(MyLoginRequiredMixin, UpdateView):
     model = Client
     template_name = 'formulario_client.html'
     fields = ['name', 'email', 'phone']
     success_url = reverse_lazy('client:list_client')
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(MyLoginRequiredMixin, DeleteView):
     model = Client
     template_name = 'client_confirm_delete.html'
     success_url = reverse_lazy('client:list_client')
