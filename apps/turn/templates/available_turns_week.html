@@ -38,8 +38,8 @@
         <div class="flex justify-between items-center">
           <div class="flex items-center space-x-3">
             <div class="flex flex-col">
-              <span class="text-lg font-semibold text-blue-900">{{ date|date:"l" }}</span>
-              <span class="text-sm text-blue-700">{{ date|date:"d M Y" }}</span>
+              <span class="text-lg font-semibold text-blue-900">{{ date|spanish_day_name }}</span>
+              <span class="text-sm text-blue-700">{{ date|date:"d" }} de {{ date|spanish_month_name }} {{ date|date:"Y" }}</span>
             </div>
           </div>
           
@@ -79,24 +79,26 @@
         {% if day_clients %}
           <div class="grid gap-3">
             {% for client in day_clients %}
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors duration-150">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                  </svg>
+            <a href="/turn/{{ client.id }}/detail">
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors duration-150">
+                <div class="flex items-center space-x-3">
+                  <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900">{{ client.name }}</div>
+                    <div class="text-sm text-gray-500">Cliente</div>
+                  </div>
                 </div>
-                <div>
-                  <div class="font-medium text-gray-900">{{ client.name }}</div>
-                  <div class="text-sm text-gray-500">Cliente</div>
+                
+                <div class="text-right">
+                  <div class="font-semibold text-blue-700">{{ client.time }}</div>
+                  <div class="text-sm text-gray-500">Hora</div>
                 </div>
               </div>
-              
-              <div class="text-right">
-                <div class="font-semibold text-blue-700">{{ client.time }}</div>
-                <div class="text-sm text-gray-500">Hora</div>
-              </div>
-            </div>
+            </a>
             {% endfor %}
           </div>
         {% else %}
