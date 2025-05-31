@@ -47,7 +47,7 @@ class ClientCreateWithTurnView(FormView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+        context['selected_date'] = date.today()
         time_slot_id = self.kwargs.get('time_slot_id')
         if time_slot_id:
             try:
