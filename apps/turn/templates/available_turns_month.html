@@ -1,0 +1,76 @@
+
+{% extends "base.html" %}
+
+{% block title %}Turnos disponibles - {{ month_name }} {{ year }}{% endblock %}
+
+{% block content %}
+{% load custom_tags %}
+<div class="container mx-auto px-4 py-6">
+
+  <header class="mb-6 text-center">
+    <h1 class="text-4xl font-bold text-indigo-700">Turnos disponibles</h1>
+    <p class="text-indigo-500 mt-1">{{ month_name }} {{ year }}</p>
+  </header>
+
+  <div class="flex justify-between items-center mb-6">
+    <a href="{% url 'turn:available_month' %}?year={{ prev_year }}&month={{ prev_month }}" 
+    class="px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-700 text-white transition">
+    &larr; Mes anterior
+    </a>
+
+    <a href="{% url 'turn:available_month' %}?year={{ next_year }}&month={{ next_month }}" 
+    class="px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-700 text-white transition">
+    Mes siguiente &rarr;
+    </a>
+
+  </div>
+
+  <table class="w-full border border-gray-300 rounded-lg overflow-hidden shadow bg-white">
+    <thead class="bg-indigo-100 text-indigo-700">
+      <tr>
+        <th class="p-3 border border-gray-300 text-center">Lunes</th>
+        <th class="p-3 border border-gray-300 text-center">Martes</th>
+        <th class="p-3 border border-gray-300 text-center">Miércoles</th>
+        <th class="p-3 border border-gray-300 text-center">Jueves</th>
+        <th class="p-3 border border-gray-300 text-center">Viernes</th>
+        <th class="p-3 border border-gray-300 text-center text-red-600">Sábado</th>
+        <th class="p-3 border border-gray-300 text-center text-red-600">Domingo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for week in calendar %}
+        <tr class="even:bg-gray-50">
+          {% for day in week %}
+            {% if day == 0 %}
+              <td class="p-6 border border-gray-300 bg-gray-100"></td>
+            {% else %}
+              {% with turnos=turns_by_date|dict_get:day %}
+              <td
+                class="p-4 border border-gray-300 align-top
+                  {% if day == current_day %} bg-indigo-100 font-semibold {% endif %}
+                "
+              >
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-sm">{{ day }}</span>
+                  {% if turnos %}
+                    <span class="bg-indigo-600 text-white rounded-full text-xs px-2 py-0.5">{{ turnos }}</span>
+                  {% endif %}
+                </div>
+                <div>
+                <a href="{% url 'turn:available_week' %}?year={{ year }}&month={{ current_month }}&day={{ day }}"
+                class="text-indigo-600 hover:underline text-sm block mt-1">
+                Ver semana
+                </a>
+
+                </div>
+              </td>
+              {% endwith %}
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}
