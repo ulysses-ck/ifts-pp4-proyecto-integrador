@@ -7,6 +7,13 @@ Este es el proyecto integrador de la materia de Prácticas Profesionales 4 de la
 - Gabriel
 - Facundo
 
+## Pila de tecnologías
+- Python
+- Django
+- HTML5
+- TailwindCSS 4
+- SQLite
+
 ## Instalación en PythonAnywhere
 
 Esta es una guía para desplegar este proyecto en PythonAnywhere. Las guías que se siguieron para realizarlo son las siguientes:
