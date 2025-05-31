@@ -79,12 +79,17 @@ cd ifts-pp4-proyecto-integrador
 
 ### 2. Crear entorno virtual
 ```bash
-# Windows
 python -m venv .venv
-.venv\Scripts\activate
+```
+### 2.1. Activar entorno virtual
+```bash
+# Windows CMD (No olvidar usar barra invertida '\' en vez de barra diagonal '/', sino no funcionará)
+.venv\Scripts\activate.bat
+
+# Windows Powershell
+.venv\Scripts\activate.ps1
 
 # Linux/macOS
-python3 -m venv .venv
 source .venv/bin/activate
 ```
 
