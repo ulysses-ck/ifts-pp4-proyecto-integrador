@@ -16,6 +16,12 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.views.decorators.csrf import csrf_protect
 
+SPANISH_MONTHS = {
+    1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+    5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+    9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+}
+
 def some_logic_to_decide_confirmation():
     raise NotImplementedError
 
@@ -134,10 +140,9 @@ class TurnDetail(DetailView):
     context_object_name= "turn"
 
 
-
-class TurnAvailableView(ListView):
+class TurnAvailableWeekView(ListView):
     model = Turn
-    template_name = "available_turns.html"
+    template_name = "available_turns_week.html"
     context_object_name = "available_turns"
 
     def get_context_data(self, **kwargs):
