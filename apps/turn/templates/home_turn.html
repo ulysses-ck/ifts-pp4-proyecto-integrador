@@ -55,10 +55,10 @@
                         <h2 class="text-lg font-semibold text-gray-900">
                             {{ turn.client.name }}
                         </h2>
-                        <p class="text-sm text-gray-600 mt-1">
-                            Barbero: {{ turn.barber.name }} &middot;
-                            Fecha: {{ turn.date|date:"d/m/Y" }} &middot;
-                            Hora: {{ turn.time|time:"H:i" }}
+                        <p class="text-gray-600">
+                            Barbero: {{ turn.barber.name }} |
+                            Fecha: {{ turn.date|date:"d/m/Y" }} |
+                            Hora: {{ turn.time_slot.start_time|time:"H:i" }} - {{ turn.time_slot.end_time|time:"H:i" }}
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2 text-sm">
