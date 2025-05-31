@@ -16,12 +16,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.views.decorators.csrf import csrf_protect
 
-SPANISH_MONTHS = {
-    1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
-    5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
-    9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
-}
-
 def some_logic_to_decide_confirmation():
     raise NotImplementedError
 
@@ -140,112 +134,139 @@ class TurnDetail(DetailView):
     context_object_name= "turn"
 
 
-class TurnAvailableWeekView(ListView):
+
+class TurnAvailableView(ListView):
     model = Turn
-    template_name = "available_turns_week.html"
+    template_name = "available_turns.html"
     context_object_name = "available_turns"
 
     def get_week_dates(self, year, month, day):
         current_date = datetime(year, month, day)
+        # Get Monday (0) of the current week
         monday = current_date - timedelta(days=current_date.weekday())
-        return [(monday + timedelta(days=i)).date() for i in range(7)]
+        # Generate dates for the whole week
+        week_dates = [(monday + timedelta(days=i)).date() for i in range(7)]
+        return week_dates
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        # Spanish month names
+        SPANISH_MONTHS = {
+            1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+            5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+            9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+        }
+        
+        # Get current year, month and view type
         today = datetime.now()
         try:
             year = int(self.request.GET.get('year', today.year))
             month = int(self.request.GET.get('month', today.month))
             day = int(self.request.GET.get('day', today.day))
         except (ValueError, TypeError):
-            year, month, day = today.year, today.month, today.day
-
-        week_dates = self.get_week_dates(year, month, day)
-        turns = Turn.objects.filter(date__in=week_dates).select_related('client').order_by('time_slot')
-
-        turns_by_date = {}
-        clients_by_date = {}
-
-        for date in week_dates:
-            date_turns = [turn for turn in turns if turn.date == date]
-            turns_by_date[date.day] = len(date_turns)
-            clients_by_date[date.day] = [
-                {
-                    'name': turn.client.name,
-                    'time': turn.time_slot.start_time.strftime('%H:%M') if turn.time_slot else ''
-                }
-                for turn in date_turns
-            ]
-
-        current_date = datetime(year, month, day)
-        prev_week = current_date - timedelta(days=7)
-        next_week = current_date + timedelta(days=7)
-
-        context.update({
-            'view_type': 'week',
-            'week_dates': week_dates,
-            'turns_by_date': turns_by_date,
-            'clients_by_date': clients_by_date,
-            'prev_week_day': prev_week.day,
-            'prev_week_month': prev_week.month,
-            'prev_week_year': prev_week.year,
-            'next_week_day': next_week.day,
-            'next_week_month': next_week.month,
-            'next_week_year': next_week.year,
-            'current_date': current_date.date(),
-        })
-        return context
-    
-class TurnAvailableMonthView(ListView):
-    model = Turn
-    template_name = "available_turns_month.html"
-    context_object_name = "available_turns"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        today = datetime.now()
-        try:
-            year = int(self.request.GET.get('year', today.year))
-            month = int(self.request.GET.get('month', today.month))
-        except (ValueError, TypeError):
-            year, month = today.year, today.month
-
-        cal = calendar.monthcalendar(year, month)
-        month_name = SPANISH_MONTHS[month]
-
-        first_day = datetime(year, month, 1)
-        if month == 12:
-            last_day = datetime(year + 1, 1, 1)
-        else:
-            last_day = datetime(year, month + 1, 1)
-
-        turns = Turn.objects.filter(date__gte=first_day, date__lt=last_day).annotate(
-            day=TruncDate('date')
-        ).values('date').annotate(count=Count('id'))
-
-        turns_by_date = {turn['date'].day: turn['count'] for turn in turns}
-
-        if month == 1:
-            prev_month, prev_year = 12, year - 1
-        else:
-            prev_month, prev_year = month - 1, year
-
-        if month == 12:
-            next_month, next_year = 1, year + 1
-        else:
-            next_month, next_year = month + 1, year
-
-        context.update({
-            'view_type': 'month',
-            'calendar': cal,
-            'month_name': month_name,
-            'year': year,
-            'turns_by_date': turns_by_date,
-            'prev_month': prev_month,
-            'prev_year': prev_year,
-            'next_month': next_month,
-            'next_year': next_year,
-            'current_month': month,
-            'current_day': today.day if month == today.month and year == today.year else None,
-        })
+            # If any conversion fails, use current date
+            year = today.year
+            month = today.month
+            day = today.day
+            
+        view_type = self.request.GET.get('view', 'month')  # 'month' or 'week'
+        
+        if view_type == 'week':
+            # Get week dates
+            week_dates = self.get_week_dates(year, month, day)
+            
+            # Get all turns for the week with client information
+            turns = Turn.objects.filter(
+                date__in=week_dates
+            ).select_related('client').order_by('time')  # Add order by time
+            
+            # Create turns_by_date dictionary with client names
+            turns_by_date = {}
+            clients_by_date = {}
+            for date in week_dates:
+                date_turns = [turn for turn in turns if turn.date == date]
+                turns_by_date[date.day] = len(date_turns)
+                clients_by_date[date.day] = [
+                    {
+                        'name': turn.client.name,
+                        'time': turn.time.strftime('%H:%M') if turn.time else ''
+                    } 
+                    for turn in date_turns
+                ]
+            
+            # Calculate previous and next week
+            current_date = datetime(year, month, day)
+            prev_week = current_date - timedelta(days=7)
+            next_week = current_date + timedelta(days=7)
+            
+            context.update({
+                'view_type': 'week',
+                'week_dates': week_dates,
+                'turns_by_date': turns_by_date,
+                'clients_by_date': clients_by_date,
+                'prev_week_day': prev_week.day,
+                'prev_week_month': prev_week.month,
+                'prev_week_year': prev_week.year,
+                'next_week_day': next_week.day,
+                'next_week_month': next_week.month,
+                'next_week_year': next_week.year,
+                'current_date': current_date.date(),
+            })
+            
+        else:  # month view
+            # Create calendar data
+            cal = calendar.monthcalendar(year, month)
+            month_name = SPANISH_MONTHS[month]
+            
+            # Get all turns for this month
+            first_day = datetime(year, month, 1)
+            if month == 12:
+                last_day = datetime(year + 1, 1, 1)
+            else:
+                last_day = datetime(year, month + 1, 1)
+                
+            turns = Turn.objects.filter(
+                date__gte=first_day,
+                date__lt=last_day
+            ).annotate(
+                day=TruncDate('date')
+            ).values('date').annotate(
+                count=Count('id')
+            )
+            
+            # Create turns_by_date dictionary
+            turns_by_date = {}
+            for turn in turns:
+                turns_by_date[turn['date'].day] = turn['count']
+            
+            # Previous and next month links
+            if month == 1:
+                prev_month = 12
+                prev_year = year - 1
+            else:
+                prev_month = month - 1
+                prev_year = year
+                
+            if month == 12:
+                next_month = 1
+                next_year = year + 1
+            else:
+                next_month = month + 1
+                next_year = year
+            
+            context.update({
+                'view_type': 'month',
+                'calendar': cal,
+                'month_name': month_name,
+                'year': year,
+                'turns_by_date': turns_by_date,
+                'prev_month': prev_month,
+                'prev_year': prev_year,
+                'next_month': next_month,
+                'next_year': next_year,
+                'current_month': month,
+                'current_day': today.day if month == today.month and year == today.year else None,
+            })
+            
         return context
