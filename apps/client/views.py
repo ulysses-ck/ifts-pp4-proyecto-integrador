@@ -131,7 +131,7 @@ class ClientListView(MyLoginRequiredMixin, ListView):
 
 class ClientUpdateView(MyLoginRequiredMixin, UpdateView):
     model = Client
-    template_name = 'formulario_client.html'
+    template_name = 'update_client.html'
     fields = ['name', 'email', 'phone']
     success_url = reverse_lazy('client:list_client')
 
